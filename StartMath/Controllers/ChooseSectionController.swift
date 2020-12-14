@@ -36,6 +36,7 @@ extension ChooseSectionController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell", for: indexPath)
         
         cell.textLabel?.text = sectionList[indexPath.row].title
+        cell.selectionStyle = .none
         
         return cell
     }

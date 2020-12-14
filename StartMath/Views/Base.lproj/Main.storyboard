@@ -166,6 +166,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NW8-lT-Aae">
                                                 <rect key="frame" x="174.5" y="49.5" width="65" height="30"/>
                                                 <state key="normal" title="Exercises"/>
+                                                <connections>
+                                                    <action selector="exercisePressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="aPj-t8-9lc"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -222,17 +225,18 @@
                         <outlet property="sectionLabel" destination="BPK-cm-IcA" id="qdo-TS-dPV"/>
                         <outlet property="testButton" destination="ElG-u4-U9J" id="dcd-ps-hZq"/>
                         <segue destination="7ij-93-2jV" kind="show" identifier="goToIntroduction" id="AMi-7r-Qhr"/>
+                        <segue destination="Vki-1T-Ewt" kind="show" identifier="goToExercisesList" id="6yg-cL-nTG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f7m-t1-nmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="841" y="78"/>
+            <point key="canvasLocation" x="809" y="78"/>
         </scene>
         <!--Introduction Controller-->
         <scene sceneID="bq1-WZ-B5Y">
             <objects>
-                <viewController id="7ij-93-2jV" customClass="IntroductionController" customModule="StartMath" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="AMy-wD-Waf" customClass="intro">
+                <viewController id="7ij-93-2jV" customClass="IntroductionController" customModule="StartMath" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AMy-wD-Waf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -299,19 +303,19 @@
         <!--Exercise List Controller-->
         <scene sceneID="1KT-x0-yTu">
             <objects>
-                <viewController id="Vki-1T-Ewt" customClass="ExerciseListController" customModule="StartSchool" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="zdZ-Fj-g8b" customClass="exer">
+                <viewController id="Vki-1T-Ewt" customClass="ExerciseListController" customModule="StartMath" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zdZ-Fj-g8b">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="tzH-PH-GIF">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Vaa-aP-1KO">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="173"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="129"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mzQ-0p-bXu">
-                                                <rect key="frame" x="0.0" y="47" width="80" height="79"/>
+                                                <rect key="frame" x="0.0" y="25" width="80" height="79"/>
                                                 <color key="tintColor" systemColor="systemGreenColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="80" id="T82-Xv-SiT"/>
@@ -319,7 +323,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/32 Done" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGD-Vi-OJz">
-                                                <rect key="frame" x="80" y="69" width="334" height="35"/>
+                                                <rect key="frame" x="80" y="47" width="334" height="35"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                                 <color key="textColor" systemColor="systemGreenColor"/>
                                                 <nil key="highlightedColor"/>
@@ -327,13 +331,13 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rPK-09-Gg9">
-                                        <rect key="frame" x="0.0" y="173" width="414" height="679"/>
+                                        <rect key="frame" x="0.0" y="129" width="414" height="679"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="exerciseCell" id="aar-iJ-ScE">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="exercisesCell" id="c5R-qj-fid">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aar-iJ-ScE" id="kNa-sh-Ese">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c5R-qj-fid" id="d5Q-N7-0iJ">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
@@ -364,13 +368,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="OBr-yR-g0r"/>
                     <connections>
-                        <outlet property="exerciseLabel" destination="tGD-Vi-OJz" id="Jvn-za-LOJ"/>
-                        <outlet property="exerciseTableView" destination="rPK-09-Gg9" id="IYK-xE-Bjc"/>
+                        <outlet property="exerciseLabel" destination="tGD-Vi-OJz" id="LYk-4s-iIm"/>
+                        <outlet property="exercisesTableView" destination="rPK-09-Gg9" id="Wl0-29-ukl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uaL-v6-cts" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1759" y="217"/>
+            <point key="canvasLocation" x="1700" y="481"/>
         </scene>
     </scenes>
     <resources>
