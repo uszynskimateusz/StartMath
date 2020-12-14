@@ -42,6 +42,14 @@ extension ChooseSectionController: UITableViewDataSource {
 }
 
 extension ChooseSectionController: ContentfulManagerDelegate {
+    func didUpdateFlashcard(_ flashcards: [FlashcardModel]) {
+        
+    }
+    
+    func didUpdateExercise(_ exercises: [ExerciseModel]) {
+        
+    }
+    
     func didUpdateSection(_ sections: [SectionModel]) {
         sectionList = sections
         DispatchQueue.main.async {
