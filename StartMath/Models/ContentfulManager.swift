@@ -12,6 +12,7 @@ protocol ContentfulManagerDelegate {
     func didUpdateExercise(_ exercises: [ExerciseModel])
     func didUpdateFlashcard(_ flashcards: [FlashcardModel])
     func didUpdateIntroducton(_ introduction: IntroductionModel)
+    func didUpdateTest(_ test: [TestModel])
 }
 
 struct ContentfulManager {
@@ -220,6 +221,46 @@ struct ContentfulManager {
         }
     }
     
+    //MARK: - Fetch Test Model
+    func fetchTest(testID: [String]) {
+        if let url = URL(string: testURL) { //entries URL
+            let session = URLSession(configuration: .default) //url session create
+            
+            //give session a task
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                if let safeData = data {
+                    self.parseTest(testData: safeData, testID)
+                }
+            }
+            
+            task.resume() //start task
+        }
+    }
+    
+    func parseTest(testData: Data, _ testID: [String]) {
+        let decoder = JSONDecoder()
+        var testTab: [TestModel] = []
+        do {
+            let decodedData = try decoder.decode(TestData.self, from: testData)
+            for t in testID {
+                for d in decodedData.items {
+                    if d.sys.id == t {
+                        let test = TestModel(title: d.fields.title, description: d.fields.description, answerA: d.fields.answerA, answerB: d.fields.answerB, answerC: d.fields.answerC, answerD: d.fields.answerD, answerCorrect: d.fields.answerCorrect)
+                        testTab.append(test)
+                    }
+                }
+            }
+            
+        } catch {
+            print("Error with decode exercise: \(error)")
+        }
+        self.delegate?.didUpdateTest(testTab)
+    }
 }
 
 //MARK: - UIImage Extension

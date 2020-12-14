@@ -42,6 +42,9 @@ extension ChooseSectionController: UITableViewDataSource {
 }
 
 extension ChooseSectionController: ContentfulManagerDelegate {
+    func didUpdateTest(_ test: [TestModel]) {
+    }
+    
     func didUpdateIntroducton(_ introduction: IntroductionModel) {
     }
     

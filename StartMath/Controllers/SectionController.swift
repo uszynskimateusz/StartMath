@@ -8,14 +8,18 @@
 import UIKit
 
 class SectionController: UIViewController {
-    
-    @IBOutlet weak var testTableView: UITableView!
+
     @IBOutlet weak var sectionLabel: UILabel!
+    @IBOutlet weak var introductionButton: UIButton!
+    @IBOutlet weak var exerciseButton: UIButton!
+    @IBOutlet weak var flashcardButton: UIButton!
+    @IBOutlet weak var testButton: UIButton!
     
     var selectedSection: SectionModel?
     var exerciseList: [ExerciseModel] = []
     var flashcardList: [FlashcardModel] = []
     var introduction: IntroductionModel?
+    var testList: [TestModel] = []
     
     var contentfulManager = ContentfulManager()
 
@@ -23,30 +27,59 @@ class SectionController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        testTableView.dataSource = self
         contentfulManager.delegate = self
+        
+        introductionButton.isEnabled = false
+        exerciseButton.isEnabled = false
+        flashcardButton.isEnabled = false
+        testButton.isEnabled = false
         
         if let section = selectedSection {
             contentfulManager.fetchExercise(exerciseID: section.exercise)
             contentfulManager.fetchFlashcard(flashcardID: section.flashcard)
             contentfulManager.fetchIntroduction(introductionID: section.introduction)
+            contentfulManager.fetchTest(testID: section.test)
             
             sectionLabel.text = section.title
         }
 
     }
+    @IBAction func introductionButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToIntroduction", sender: sender)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "goToIntroduction":
+                let destinationVC = segue.destination as! IntroductionController
+                if let i = introduction {
+                    destinationVC.introduction = i
+                }
+                
+            default: break
+                
+            }
+        }
+    }
+    
 
 }
 
 extension SectionController: ContentfulManagerDelegate {
+    func didUpdateTest(_ test: [TestModel]) {
+        testList = test
+        
+        DispatchQueue.main.async {
+            self.testButton.isEnabled = true
+        }
+    }
+    
     func didUpdateIntroducton(_ introduction: IntroductionModel) {
         self.introduction = introduction
         
-        if let i = self.introduction {
-            DispatchQueue.main.async {
-                self.sectionLabel.text = i.title
-            }
+        DispatchQueue.main.async {
+            self.introductionButton.isEnabled = true
         }
     }
     
@@ -54,7 +87,7 @@ extension SectionController: ContentfulManagerDelegate {
         flashcardList = flashcards
         
         DispatchQueue.main.async {
-            self.testTableView.reloadData()
+            self.flashcardButton.isEnabled = true
         }
     }
     
@@ -64,19 +97,9 @@ extension SectionController: ContentfulManagerDelegate {
     
     func didUpdateExercise(_ exercises: [ExerciseModel]) {
         exerciseList = exercises
-    }
-}
-
-extension SectionController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return flashcardList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "testCell", for: indexPath)
         
-        cell.textLabel?.text = flashcardList[indexPath.row].title
-        
-        return cell
+        DispatchQueue.main.async {
+            self.exerciseButton.isEnabled = true
+        }
     }
 }
