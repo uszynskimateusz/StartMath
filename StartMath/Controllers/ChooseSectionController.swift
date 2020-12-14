@@ -42,6 +42,9 @@ extension ChooseSectionController: UITableViewDataSource {
 }
 
 extension ChooseSectionController: ContentfulManagerDelegate {
+    func didUpdateIntroducton(_ introduction: IntroductionModel) {
+    }
+    
     func didUpdateFlashcard(_ flashcards: [FlashcardModel]) {
         
     }

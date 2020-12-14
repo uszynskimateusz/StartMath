@@ -11,6 +11,7 @@ protocol ContentfulManagerDelegate {
     func didUpdateSection(_ sections: [SectionModel])
     func didUpdateExercise(_ exercises: [ExerciseModel])
     func didUpdateFlashcard(_ flashcards: [FlashcardModel])
+    func didUpdateIntroducton(_ introduction: IntroductionModel)
 }
 
 struct ContentfulManager {
@@ -19,6 +20,10 @@ struct ContentfulManager {
     let exerciseURL =  "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=exercise"
     
     let flashcardURL = "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=flaschcard"
+    
+    let introductionURL = "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=introduction"
+    
+    let testURL = "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=exerciseTest"
     
     var delegate: ContentfulManagerDelegate?
     
@@ -177,6 +182,44 @@ struct ContentfulManager {
         }
         self.delegate?.didUpdateFlashcard(flashcardTab)
     }
+    
+    //MARK: - Fetch Introduction Model
+    func fetchIntroduction(introductionID: String) {
+        if let url = URL(string: introductionURL) { //entries URL
+            let session = URLSession(configuration: .default) //url session create
+            
+            //give session a task
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                if let safeData = data {
+                    self.parseIntroduction(introductionData: safeData, introductionID)
+                }
+            }
+            
+            task.resume() //start task
+        }
+    }
+    
+    func parseIntroduction(introductionData: Data, _ introductionID: String) {
+        let decoder = JSONDecoder()
+        do {
+            let decodedData = try decoder.decode(IntroductionData.self, from: introductionData)
+            for d in decodedData.items {
+                if d.sys.id == introductionID {
+                    let introduction = IntroductionModel(title: d.fields.title, description: d.fields.description)
+                    self.delegate?.didUpdateIntroducton(introduction)
+                }
+            }
+            
+        } catch {
+            print("Error with decode exercise: \(error)")
+        }
+    }
+    
 }
 
 //MARK: - UIImage Extension

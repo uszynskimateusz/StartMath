@@ -15,6 +15,7 @@ class SectionController: UIViewController {
     var selectedSection: SectionModel?
     var exerciseList: [ExerciseModel] = []
     var flashcardList: [FlashcardModel] = []
+    var introduction: IntroductionModel?
     
     var contentfulManager = ContentfulManager()
 
@@ -29,6 +30,7 @@ class SectionController: UIViewController {
         if let section = selectedSection {
             contentfulManager.fetchExercise(exerciseID: section.exercise)
             contentfulManager.fetchFlashcard(flashcardID: section.flashcard)
+            contentfulManager.fetchIntroduction(introductionID: section.introduction)
             
             sectionLabel.text = section.title
         }
@@ -38,6 +40,16 @@ class SectionController: UIViewController {
 }
 
 extension SectionController: ContentfulManagerDelegate {
+    func didUpdateIntroducton(_ introduction: IntroductionModel) {
+        self.introduction = introduction
+        
+        if let i = self.introduction {
+            DispatchQueue.main.async {
+                self.sectionLabel.text = i.title
+            }
+        }
+    }
+    
     func didUpdateFlashcard(_ flashcards: [FlashcardModel]) {
         flashcardList = flashcards
         
