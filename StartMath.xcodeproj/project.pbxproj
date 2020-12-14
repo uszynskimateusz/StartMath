@@ -28,6 +28,7 @@
 		69659D0225877897006D6FCC /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659D0125877897006D6FCC /* TestModel.swift */; };
 		69659D0525877D57006D6FCC /* IntroductionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659D0425877D57006D6FCC /* IntroductionController.swift */; };
 		69D9B02625875DD1007DB045 /* SectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9B02525875DD1007DB045 /* SectionController.swift */; };
+		69F2277625879F7500C970FC /* FlashcardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2277525879F7500C970FC /* FlashcardController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		69659D0125877897006D6FCC /* TestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		69659D0425877D57006D6FCC /* IntroductionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionController.swift; sourceTree = "<group>"; };
 		69D9B02525875DD1007DB045 /* SectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionController.swift; sourceTree = "<group>"; };
+		69F2277525879F7500C970FC /* FlashcardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				69659D0425877D57006D6FCC /* IntroductionController.swift */,
 				6939D0A325879428000B97DE /* ExerciseListController.swift */,
 				6939D0A625879C1F000B97DE /* SingleExerciseController.swift */,
+				69F2277525879F7500C970FC /* FlashcardController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				695369212585046C0058D1D5 /* ChooseSectionController.swift in Sources */,
 				6953691D2585046C0058D1D5 /* AppDelegate.swift in Sources */,
 				69659CFC25877489006D6FCC /* IntroductionModel.swift in Sources */,
+				69F2277625879F7500C970FC /* FlashcardController.swift in Sources */,
 				69659CFF25877838006D6FCC /* TestData.swift in Sources */,
 				6953693B258516E50058D1D5 /* SectionData.swift in Sources */,
 				69659CF6258770CF006D6FCC /* FlashcardModel.swift in Sources */,
