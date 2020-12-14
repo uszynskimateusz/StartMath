@@ -10,7 +10,7 @@ import Foundation
 struct SectionModel {
     let title: String
     let introduction: String
-    let flashcard: String
-    let exercise: String
-    let test: String
+    let flashcard: [String]
+    let exercise: [String]
+    let test: [String]
 }

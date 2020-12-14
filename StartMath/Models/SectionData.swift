@@ -19,9 +19,9 @@ struct Fields: Decodable {
     let title: String
     
     let introduction: FieldsOfSection
-    let flashcard: FieldsOfSection
-    let exercise: FieldsOfSection
-    let test: FieldsOfSection
+    let flashcards: [FieldsOfSection]
+    let exercises: [FieldsOfSection]
+    let test: [FieldsOfSection]
 }
 
 struct FieldsOfSection: Decodable {

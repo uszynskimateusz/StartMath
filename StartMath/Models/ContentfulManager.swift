@@ -47,12 +47,27 @@ struct ContentfulManager {
         do {
             let decodedData = try decoder.decode(SectionData.self, from: section)
             for d in decodedData.items {
-                let sectionModel = SectionModel(title: d.fields.title, introduction: d.fields.introduction.sys.id, flashcard: d.fields.flashcard.sys.id, exercise: d.fields.exercise.sys.id, test: d.fields.test.sys.id)
+                var flashcards: [String] = []
+                for f in d.fields.flashcards {
+                    flashcards.append(f.sys.id)
+                }
+                
+                var exercises: [String] = []
+                for e in d.fields.exercises {
+                    exercises.append(e.sys.id)
+                }
+                
+                var tests: [String] = []
+                for t in d.fields.test {
+                    tests.append(t.sys.id)
+                }
+                
+                let sectionModel = SectionModel(title: d.fields.title, introduction: d.fields.introduction.sys.id, flashcard: flashcards, exercise: exercises, test: tests)
                 
                 sectionList.append(sectionModel)
             }
         } catch {
-            print(error)
+            print("Error with decoding data: \(error)")
         }
         
         return sectionList

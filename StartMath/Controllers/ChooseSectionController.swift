@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SectionController: UIViewController {
+class ChooseSectionController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var sectionTableView: UITableView!
     
@@ -26,7 +26,7 @@ class SectionController: UIViewController {
     }
 }
 
-extension SectionController: UITableViewDataSource {
+extension ChooseSectionController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sectionList.count
     }
@@ -35,16 +35,12 @@ extension SectionController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell", for: indexPath)
         
         cell.textLabel?.text = sectionList[indexPath.row].title
-        print(sectionList[indexPath.row].exercise)
-        print(sectionList[indexPath.row].flashcard)
-        print(sectionList[indexPath.row].introduction)
-        print(sectionList[indexPath.row].test)
         
         return cell
     }
 }
 
-extension SectionController: ContentfulManagerDelegate {
+extension ChooseSectionController: ContentfulManagerDelegate {
     func didUpdateSection(_ sections: [SectionModel]) {
         sectionList = sections
         DispatchQueue.main.async {
