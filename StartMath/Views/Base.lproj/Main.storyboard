@@ -93,16 +93,17 @@
                     <connections>
                         <outlet property="sectionTableView" destination="5Gz-XZ-Cu4" id="7RV-Rj-VUH"/>
                         <outlet property="welcomeLabel" destination="Ll9-VW-CDv" id="G2U-9G-6cV"/>
+                        <segue destination="v7G-ww-Qmi" kind="show" identifier="goToSection" id="qgq-dB-5Jv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-184" y="78"/>
+            <point key="canvasLocation" x="-136" y="78"/>
         </scene>
-        <!--View Controller-->
+        <!--Section Controller-->
         <scene sceneID="qwS-tf-O16">
             <objects>
-                <viewController id="v7G-ww-Qmi" sceneMemberID="viewController">
+                <viewController id="v7G-ww-Qmi" customClass="SectionController" customModule="StartMath" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ib7-o4-Ah6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,6 +139,7 @@
                         <viewLayoutGuide key="safeArea" id="lS7-7U-NWB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="r8t-W7-B2R"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f7m-t1-nmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

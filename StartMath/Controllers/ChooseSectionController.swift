@@ -21,6 +21,7 @@ class ChooseSectionController: UIViewController {
         
         contentfulManager.delegate = self
         sectionTableView.dataSource = self
+        sectionTableView.delegate = self
         
         contentfulManager.fetchSection()
     }
@@ -45,6 +46,20 @@ extension ChooseSectionController: ContentfulManagerDelegate {
         sectionList = sections
         DispatchQueue.main.async {
             self.sectionTableView.reloadData()
+        }
+    }
+}
+
+extension ChooseSectionController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToSection", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! SectionController
+        
+        if let indexPath = sectionTableView.indexPathForSelectedRow {
+            destinationVC.selectedSection = sectionList[indexPath.row]
         }
     }
 }

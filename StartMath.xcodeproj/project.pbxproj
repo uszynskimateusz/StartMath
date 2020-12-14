@@ -16,6 +16,7 @@
 		6953693825850B130058D1D5 /* ContentfulManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693725850B130058D1D5 /* ContentfulManager.swift */; };
 		6953693B258516E50058D1D5 /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693A258516E50058D1D5 /* SectionData.swift */; };
 		6953693E258518C70058D1D5 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693D258518C70058D1D5 /* SectionModel.swift */; };
+		69D9B02625875DD1007DB045 /* SectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9B02525875DD1007DB045 /* SectionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		6953693725850B130058D1D5 /* ContentfulManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentfulManager.swift; sourceTree = "<group>"; };
 		6953693A258516E50058D1D5 /* SectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		6953693D258518C70058D1D5 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		69D9B02525875DD1007DB045 /* SectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +67,8 @@
 				6953691C2585046C0058D1D5 /* AppDelegate.swift */,
 				6953691E2585046C0058D1D5 /* SceneDelegate.swift */,
 				695369342585049B0058D1D5 /* Models */,
-				69536931258504760058D1D5 /* Controllers */,
 				69536933258504900058D1D5 /* Views */,
+				69536931258504760058D1D5 /* Controllers */,
 				695369252585046E0058D1D5 /* Assets.xcassets */,
 				695369272585046E0058D1D5 /* LaunchScreen.storyboard */,
 				6953692A2585046E0058D1D5 /* Info.plist */,
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				695369202585046C0058D1D5 /* ChooseSectionController.swift */,
+				69D9B02525875DD1007DB045 /* SectionController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69D9B02625875DD1007DB045 /* SectionController.swift in Sources */,
 				695369212585046C0058D1D5 /* ChooseSectionController.swift in Sources */,
 				6953691D2585046C0058D1D5 /* AppDelegate.swift in Sources */,
 				6953693B258516E50058D1D5 /* SectionData.swift in Sources */,
