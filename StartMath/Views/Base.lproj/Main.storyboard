@@ -183,6 +183,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDl-Hm-4X2">
                                                 <rect key="frame" x="169.5" y="49.5" width="75" height="30"/>
                                                 <state key="normal" title="Flashcards"/>
+                                                <connections>
+                                                    <action selector="flashcardPressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="Ux4-QX-gD4"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -287,6 +290,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4uA-Wi-rtb"/>
+                    <connections>
+                        <outlet property="flashcardTableView" destination="hra-v3-qXs" id="GTT-Lf-OJS"/>
+                        <outlet property="sectionLabel" destination="tQx-Eh-X4r" id="OEU-Ia-FeB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IWm-R6-QqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
