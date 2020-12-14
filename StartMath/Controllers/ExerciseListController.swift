@@ -20,6 +20,7 @@ class ExerciseListController: UIViewController {
         // Do any additional setup after loading the view.
         
         exercisesTableView.dataSource = self
+        exercisesTableView.delegate = self
     }
 }
 
@@ -35,5 +36,20 @@ extension ExerciseListController: UITableViewDataSource {
         cell.selectionStyle = .none
         
         return cell
+    }
+}
+
+
+extension ExerciseListController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToSingleExercise", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! SingleExerciseController
+
+        if let indexPath = exercisesTableView.indexPathForSelectedRow {
+            destinationVC.selectedExercise = exerciseTab[indexPath.row]
+        }
     }
 }
