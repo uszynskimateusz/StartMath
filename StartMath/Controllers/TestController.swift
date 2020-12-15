@@ -56,7 +56,6 @@ class TestController: UIViewController {
         answearCButton.setTitle(testTab[exerciseNumber].answerC, for: .normal)
         answearDButton.setTitle(testTab[exerciseNumber].answerD, for: .normal)
         
-        
         progressBar.progress = Float(exerciseNumber+1)/Float(testTab.count)
 
         answearAButton.backgroundColor = UIColor.clear
@@ -71,6 +70,6 @@ class TestController: UIViewController {
         
         nextQuestion()
         
-        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
 }

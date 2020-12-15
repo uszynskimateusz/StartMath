@@ -681,6 +681,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJN-5a-vli">
                                                 <rect key="frame" x="161.5" y="32.5" width="91" height="30"/>
                                                 <state key="normal" title="Show answer"/>
+                                                <connections>
+                                                    <action selector="showAnswearPressed:" destination="dH3-6M-hNV" eventType="touchUpInside" id="ig6-pP-noG"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
