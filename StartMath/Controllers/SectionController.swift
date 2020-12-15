@@ -51,9 +51,15 @@ class SectionController: UIViewController {
     @IBAction func exercisePressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToExercisesList", sender: sender)
     }
-    @IBAction func flashcardPressed(_ sender: Any) {
+    
+    @IBAction func flashcardPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToFlashcards", sender: sender)
     }
+    
+    @IBAction func testPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToTest", sender: sender)
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
@@ -72,6 +78,9 @@ class SectionController: UIViewController {
                 let destinationVC = segue.destination as! FlashcardController
                 destinationVC.flashcardTab = flashcardList
                 
+            case "goToTest":
+                let destinationVC = segue.destination as! TestController
+                destinationVC.testTab = testList
                 
             default: break
                 

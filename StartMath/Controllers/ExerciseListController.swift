@@ -21,6 +21,8 @@ class ExerciseListController: UIViewController {
         
         exercisesTableView.dataSource = self
         exercisesTableView.delegate = self
+        
+        exercisesTableView.register(UINib(nibName: "ExerciseCell", bundle: nil), forCellReuseIdentifier: "exercisesCell")
     }
 }
 
@@ -30,9 +32,9 @@ extension ExerciseListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath) as! ExerciseCell
         
-        cell.textLabel?.text = exerciseTab[indexPath.row].title
+        cell.titleLabel.text = exerciseTab[indexPath.row].title
         cell.selectionStyle = .none
         
         return cell

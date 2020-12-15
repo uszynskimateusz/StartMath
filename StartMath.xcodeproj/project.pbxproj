@@ -18,6 +18,7 @@
 		6953693825850B130058D1D5 /* ContentfulManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693725850B130058D1D5 /* ContentfulManager.swift */; };
 		6953693B258516E50058D1D5 /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693A258516E50058D1D5 /* SectionData.swift */; };
 		6953693E258518C70058D1D5 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953693D258518C70058D1D5 /* SectionModel.swift */; };
+		6955ACDC2587A8AF00C21F7F /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955ACDB2587A8AF00C21F7F /* TestController.swift */; };
 		69659CED25876265006D6FCC /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659CEC25876265006D6FCC /* ExerciseData.swift */; };
 		69659CF0258762B0006D6FCC /* ExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659CEF258762B0006D6FCC /* ExerciseModel.swift */; };
 		69659CF325877057006D6FCC /* FlashcardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659CF225877057006D6FCC /* FlashcardData.swift */; };
@@ -27,6 +28,10 @@
 		69659CFF25877838006D6FCC /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659CFE25877838006D6FCC /* TestData.swift */; };
 		69659D0225877897006D6FCC /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659D0125877897006D6FCC /* TestModel.swift */; };
 		69659D0525877D57006D6FCC /* IntroductionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659D0425877D57006D6FCC /* IntroductionController.swift */; };
+		69B83ABD2588A73D000BF912 /* FlashcardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B83ABB2588A73D000BF912 /* FlashcardCell.swift */; };
+		69B83ABE2588A73D000BF912 /* FlashcardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B83ABC2588A73D000BF912 /* FlashcardCell.xib */; };
+		69B83AC22588AD61000BF912 /* ExerciseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B83AC02588AD61000BF912 /* ExerciseCell.swift */; };
+		69B83AC32588AD61000BF912 /* ExerciseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B83AC12588AD61000BF912 /* ExerciseCell.xib */; };
 		69D9B02625875DD1007DB045 /* SectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9B02525875DD1007DB045 /* SectionController.swift */; };
 		69F2277625879F7500C970FC /* FlashcardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2277525879F7500C970FC /* FlashcardController.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +50,7 @@
 		6953693725850B130058D1D5 /* ContentfulManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentfulManager.swift; sourceTree = "<group>"; };
 		6953693A258516E50058D1D5 /* SectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		6953693D258518C70058D1D5 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		6955ACDB2587A8AF00C21F7F /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		69659CEC25876265006D6FCC /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
 		69659CEF258762B0006D6FCC /* ExerciseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModel.swift; sourceTree = "<group>"; };
 		69659CF225877057006D6FCC /* FlashcardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardData.swift; sourceTree = "<group>"; };
@@ -54,6 +60,10 @@
 		69659CFE25877838006D6FCC /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		69659D0125877897006D6FCC /* TestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		69659D0425877D57006D6FCC /* IntroductionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionController.swift; sourceTree = "<group>"; };
+		69B83ABB2588A73D000BF912 /* FlashcardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCell.swift; sourceTree = "<group>"; };
+		69B83ABC2588A73D000BF912 /* FlashcardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlashcardCell.xib; sourceTree = "<group>"; };
+		69B83AC02588AD61000BF912 /* ExerciseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCell.swift; sourceTree = "<group>"; };
+		69B83AC12588AD61000BF912 /* ExerciseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseCell.xib; sourceTree = "<group>"; };
 		69D9B02525875DD1007DB045 /* SectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionController.swift; sourceTree = "<group>"; };
 		69F2277525879F7500C970FC /* FlashcardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +119,7 @@
 				6939D0A325879428000B97DE /* ExerciseListController.swift */,
 				6939D0A625879C1F000B97DE /* SingleExerciseController.swift */,
 				69F2277525879F7500C970FC /* FlashcardController.swift */,
+				6955ACDB2587A8AF00C21F7F /* TestController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -117,6 +128,10 @@
 			isa = PBXGroup;
 			children = (
 				695369222585046C0058D1D5 /* Main.storyboard */,
+				69B83AC02588AD61000BF912 /* ExerciseCell.swift */,
+				69B83AC12588AD61000BF912 /* ExerciseCell.xib */,
+				69B83ABB2588A73D000BF912 /* FlashcardCell.swift */,
+				69B83ABC2588A73D000BF912 /* FlashcardCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,6 +213,8 @@
 			files = (
 				695369292585046E0058D1D5 /* LaunchScreen.storyboard in Resources */,
 				695369262585046E0058D1D5 /* Assets.xcassets in Resources */,
+				69B83AC32588AD61000BF912 /* ExerciseCell.xib in Resources */,
+				69B83ABE2588A73D000BF912 /* FlashcardCell.xib in Resources */,
 				695369242585046C0058D1D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,12 +226,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69B83ABD2588A73D000BF912 /* FlashcardCell.swift in Sources */,
 				69D9B02625875DD1007DB045 /* SectionController.swift in Sources */,
 				6939D0A725879C1F000B97DE /* SingleExerciseController.swift in Sources */,
 				69659CF9258773A3006D6FCC /* IntroductionData.swift in Sources */,
 				695369212585046C0058D1D5 /* ChooseSectionController.swift in Sources */,
 				6953691D2585046C0058D1D5 /* AppDelegate.swift in Sources */,
 				69659CFC25877489006D6FCC /* IntroductionModel.swift in Sources */,
+				69B83AC22588AD61000BF912 /* ExerciseCell.swift in Sources */,
 				69F2277625879F7500C970FC /* FlashcardController.swift in Sources */,
 				69659CFF25877838006D6FCC /* TestData.swift in Sources */,
 				6953693B258516E50058D1D5 /* SectionData.swift in Sources */,
@@ -224,6 +243,7 @@
 				69659CF325877057006D6FCC /* FlashcardData.swift in Sources */,
 				6939D0A425879428000B97DE /* ExerciseListController.swift in Sources */,
 				6953693E258518C70058D1D5 /* SectionModel.swift in Sources */,
+				6955ACDC2587A8AF00C21F7F /* TestController.swift in Sources */,
 				69659D0225877897006D6FCC /* TestModel.swift in Sources */,
 				69659D0525877D57006D6FCC /* IntroductionController.swift in Sources */,
 				69659CF0258762B0006D6FCC /* ExerciseModel.swift in Sources */,

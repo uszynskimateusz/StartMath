@@ -19,6 +19,8 @@ class FlashcardController: UIViewController {
         // Do any additional setup after loading the view.
         
         flashcardTableView.dataSource = self
+        
+        flashcardTableView.register(UINib(nibName: "FlashcardCell", bundle: nil), forCellReuseIdentifier: "flashcardCell")
     }
 }
 
@@ -28,9 +30,12 @@ extension FlashcardController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardCell", for: indexPath) as! FlashcardCell
         
-        cell.textLabel?.text = flashcardTab[indexPath.row].title
+        cell.titleLabel.text = flashcardTab[indexPath.row].title
+        cell.descriptionLabel.text = flashcardTab[indexPath.row].description
+        cell.bottomImageView.image = flashcardTab[indexPath.row].image
+        
         cell.selectionStyle = .none
         
         return cell
