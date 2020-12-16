@@ -92,6 +92,10 @@ class SectionController: UIViewController {
 }
 
 extension SectionController: ContentfulManagerDelegate {
+    func update() {
+        
+    }
+    
     func didUpdateTest(_ test: [TestModel]) {
         testList = test
         

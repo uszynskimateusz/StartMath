@@ -13,4 +13,6 @@ struct SectionModel {
     let flashcard: [String]
     let exercise: [String]
     let test: [String]
+    
+    let updatedAt: String
 }

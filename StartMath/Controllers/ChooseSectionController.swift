@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ChooseSectionController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var sectionTableView: UITableView!
     
     var sectionList: [SectionModel] = []
+    
+    let realm = try! Realm()
+    var sections: Results<Section>?
     
     var contentfulManager = ContentfulManager()
     
@@ -23,19 +27,27 @@ class ChooseSectionController: UIViewController {
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
         
-        contentfulManager.fetchSection()
+        contentfulManager.fetchAll()
+        
+        loadSection()
+    }
+    
+    func loadSection() {
+        sections = realm.objects(Section.self)
+        
+        sectionTableView.reloadData()
     }
 }
 
 extension ChooseSectionController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sectionList.count
+        return sections?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell", for: indexPath)
         
-        cell.textLabel?.text = sectionList[indexPath.row].title
+        cell.textLabel?.text = sections?[indexPath.row].title ?? "Brak komórek"
         cell.selectionStyle = .none
         
         return cell
@@ -43,6 +55,10 @@ extension ChooseSectionController: UITableViewDataSource {
 }
 
 extension ChooseSectionController: ContentfulManagerDelegate {
+    func update() {
+        sectionTableView.reloadData()
+    }
+    
     func didUpdateTest(_ test: [TestModel]) {
     }
     
@@ -74,7 +90,7 @@ extension ChooseSectionController: UITableViewDelegate {
         let destinationVC = segue.destination as! SectionController
         
         if let indexPath = sectionTableView.indexPathForSelectedRow {
-            destinationVC.selectedSection = sectionList[indexPath.row]
+           destinationVC.selectedSection = sectionList[indexPath.row]
         }
     }
 }

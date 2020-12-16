@@ -1,0 +1,16 @@
+//
+//  Exercise.swift
+//  StartMath
+//
+//  Created by Mateusz Uszyński on 16/12/2020.
+//
+
+import Foundation
+import RealmSwift
+
+class Exercise: Object {
+    @objc dynamic var title: String = ""
+    @objc dynamic var descriptionExercise: String = ""
+    @objc dynamic var answer: String = ""
+    @objc dynamic var  image: NSData = NSData()
+}
