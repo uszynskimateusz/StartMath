@@ -129,6 +129,9 @@ struct ContentfulManager {
                     let newIntro = Introduction()
                     newIntro.title = d.fields.title
                     newIntro.descriptionIntroduction = d.fields.description
+                    newIntro.createdAt = d.sys.createdAt
+                    newIntro.updatedAt = d.sys.updatedAt
+                    
                     
                     DispatchQueue.main.async {
                         saveIntro(newIntro, section: secion, introductions: introductions)
@@ -163,6 +166,10 @@ struct ContentfulManager {
     }
     
     func parseExer(data: Data, id: [String], secion: Section) {
+        var exercises: Results<Exercise>?
+        DispatchQueue.main.async {
+            exercises = realm.objects(Exercise.self)
+        }
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(ExerciseData.self, from: data)
@@ -178,9 +185,11 @@ struct ContentfulManager {
                                         newExer.descriptionExercise = d.fields.description
                                         newExer.answer = d.fields.answer
                                         newExer.image = NSData(data: uiImage.pngData()!)
+                                        newExer.createdAt = d.sys.createdAt
+                                        newExer.updatedAt = d.sys.updatedAt
                                         
                                         DispatchQueue.main.async {
-                                            saveExer(newExer, section: secion)
+                                            saveExer(newExer, section: secion, exercises: exercises)
                                         }
                                     }
                                 }
@@ -216,6 +225,10 @@ struct ContentfulManager {
     }
     
     func parseFlash(data: Data, id: [String], secion: Section) {
+        var flashcards: Results<Flashcard>?
+        DispatchQueue.main.async {
+            flashcards = realm.objects(Flashcard.self)
+        }
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(FlashcardData.self, from: data)
@@ -230,9 +243,11 @@ struct ContentfulManager {
                                         flash.title = d.fields.title
                                         flash.descriptionFlashcard = d.fields.description
                                         flash.image = NSData(data: uiImage.pngData()!)
+                                        flash.createdAt = d.sys.createdAt
+                                        flash.updatedAt = d.sys.updatedAt
                                         
                                         DispatchQueue.main.async {
-                                            saveFlash(flash, section: secion)
+                                            saveFlash(flash, section: secion, flashcards: flashcards)
                                         }
                                     }
                                 }
@@ -268,6 +283,10 @@ struct ContentfulManager {
     }
     
     func parseTest(data: Data, id: [String], secion: Section) {
+        var tests: Results<Test>?
+        DispatchQueue.main.async {
+            tests = realm.objects(Test.self)
+        }
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(TestData.self, from: data)
@@ -282,9 +301,11 @@ struct ContentfulManager {
                         test.answerC = d.fields.answerC
                         test.answerD = d.fields.answerD
                         test.answerCorrect = d.fields.answerCorrect
+                        test.createdAt = d.sys.createdAt
+                        test.updatedAt = d.sys.updatedAt
                         
                         DispatchQueue.main.async {
-                            saveTest(test, section: secion)
+                            saveTest(test, section: secion, tests: tests)
                         }
                     }
                 }
@@ -296,51 +317,143 @@ struct ContentfulManager {
     }
     
     //MARK: - Data Manipulation Method
-    func saveTest(_ test: Test, section: Section) {
-        do {
-            try self.realm.write {
-                section.tests.append(test)
-                print("Added new Test \(test.title) to \(section.title)")
-                delegate?.update()
+    func saveTest(_ test: Test, section: Section, tests: Results<Test>?) {
+        var exist = false
+        if let testList = tests {
+            for t in testList {
+                if t.createdAt == test.createdAt {
+                    exist = true
+                    if t.updatedAt != test.updatedAt {
+                        do {
+                            try realm.write {
+                                t.title = test.title
+                                t.descriptionTest = test.descriptionTest
+                                t.answerA = test.answerA
+                                t.answerB = test.answerB
+                                t.answerC = test.answerC
+                                t.answerD = test.answerD
+                                t.answerCorrect = test.answerCorrect
+                                t.updatedAt = test.updatedAt
+                            }
+                        } catch {
+                            print("Error with update Test to Realm: \(error)")
+                        }
+                    }
+                }
             }
-        } catch {
-            print("Error with saving Test, \(error.localizedDescription)")
+        }
+        
+        if exist == false {
+            do {
+                try self.realm.write {
+                    section.tests.append(test)
+                    delegate?.update()
+                }
+            } catch {
+                print("Error with saving Test, \(error.localizedDescription)")
+            }
         }
     }
     
-    func saveFlash(_ flash: Flashcard, section: Section) {
-        do {
-            try self.realm.write {
-                section.flashcards.append(flash)
-                print("Added new Flash \(flash.title) to \(section.title)")
-                delegate?.update()
+    func saveFlash(_ flash: Flashcard, section: Section, flashcards: Results<Flashcard>?) {
+        var exist = false
+        if let flashList = flashcards {
+            for f in flashList {
+                if f.createdAt == flash.createdAt {
+                    exist = true
+                    if f.updatedAt != flash.updatedAt {
+                        do {
+                            try realm.write {
+                                f.title = flash.title
+                                f.descriptionFlashcard = flash.descriptionFlashcard
+                                f.image = flash.image
+                                f.updatedAt = flash.updatedAt
+                            }
+                        } catch {
+                            print("Error with update Flashcard to Realm: \(error)")
+                        }
+                    }
+                }
             }
-        } catch {
-            print("Error with saving flshcard, \(error.localizedDescription)")
+        }
+        
+        if exist == false {
+            do {
+                try self.realm.write {
+                    section.flashcards.append(flash)
+                    delegate?.update()
+                }
+            } catch {
+                print("Error with saving flshcard, \(error.localizedDescription)")
+            }
         }
     }
     
-    func saveExer(_ exer: Exercise, section: Section) {
-        do {
-            try self.realm.write {
-                section.exercises.append(exer)
-                print("Added new Exer \(exer.title) to \(section.title)")
-                delegate?.update()
+    func saveExer(_ exer: Exercise, section: Section, exercises: Results<Exercise>?) {
+        var exist = false
+        if let exerList = exercises {
+            for e in exerList {
+                if e.createdAt == exer.createdAt {
+                    exist = true
+                    if e.updatedAt != exer.updatedAt {
+                        do {
+                            try realm.write {
+                                e.title = exer.title
+                                e.descriptionExercise = exer.descriptionExercise
+                                e.answer = exer.answer
+                                e.updatedAt = exer.updatedAt
+                                e.image = exer.image
+                                e.done = false
+                            }
+                        } catch {
+                            print("Error with update Exer to Realm: \(error)")
+                        }
+                    }
+                }
             }
-        } catch {
-            print("Error with saving Exercise, \(error.localizedDescription)")
+        }
+        
+        if exist == false {
+            do {
+                try self.realm.write {
+                    section.exercises.append(exer)
+                    delegate?.update()
+                }
+            } catch {
+                print("Error with saving Exercise, \(error.localizedDescription)")
+            }
         }
     }
     
     func saveIntro(_ intro: Introduction, section: Section, introductions: Results<Introduction>?) {
-        do {
-            try self.realm.write {
-                section.introductions.append(intro)
-                print("Added new Intro \(intro.title) to \(section.title)")
-                delegate?.update()
+        var exist = false
+        if let introList = introductions {
+            for i in introList {
+                if i.createdAt == intro.createdAt {
+                    exist = true
+                    if i.updatedAt != intro.updatedAt {
+                        do {
+                            try realm.write {
+                                i.title = intro.title
+                                i.descriptionIntroduction = intro.descriptionIntroduction
+                                i.updatedAt = intro.updatedAt
+                            }
+                        } catch {
+                            print("Error with update Introduction to Realm: \(error)")
+                        }
+                    }
+                }
             }
-        } catch {
-            print("Error with saving introductions, \(error.localizedDescription)")
+        }
+        if exist == false {
+            do {
+                try self.realm.write {
+                    section.introductions.append(intro)
+                    delegate?.update()
+                }
+            } catch {
+                print("Error with saving introductions, \(error.localizedDescription)")
+            }
         }
     }
     
@@ -361,7 +474,7 @@ struct ContentfulManager {
                                 s.tests = newSection.tests
                             }
                         } catch {
-                            print("Error with save Section to Realm: \(error)")
+                            print("Error with updating Section to Realm: \(error)")
                         }
                     }
                 }
@@ -372,7 +485,6 @@ struct ContentfulManager {
             do {
                 try realm.write {
                     realm.add(newSection)
-                    print("Save new section: \(newSection.title)")
                     delegate?.update()
                 }
             } catch {

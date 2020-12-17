@@ -15,7 +15,7 @@ struct TestData: Decodable {
 //main --> "items: []"
 struct ItemsTest: Decodable {
     let fields: FieldsTest
-    let sys: Sys
+    let sys: SysINFO
 }
 
 //main --> "items: []" --> fields

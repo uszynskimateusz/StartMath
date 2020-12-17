@@ -15,11 +15,17 @@ struct IntroductionData: Decodable {
 //main --> "items: []"
 struct ItemsIntroduction: Decodable {
     let fields: FieldsIntroduction
-    let sys: Sys
+    let sys: SysINFO
 }
 
 //main --> "items: []" --> fields
 struct FieldsIntroduction: Decodable {
     let title: String
     let description: String
+}
+
+struct SysINFO: Decodable {
+    let id: String
+    let updatedAt: String
+    let createdAt: String
 }

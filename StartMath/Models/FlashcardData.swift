@@ -16,7 +16,7 @@ struct FlashcardData: Decodable {
 //main --> "items: []"
 struct ItemsFlashcard: Decodable {
     let fields: FieldsFlashcard
-    let sys: Sys
+    let sys: SysINFO
 }
 
 //main --> "items: []" --> fields
