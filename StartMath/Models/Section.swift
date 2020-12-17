@@ -10,10 +10,12 @@ import RealmSwift
 
 class Section: Object {
     @objc dynamic var title: String = ""
-    @objc dynamic var updatedAt: String = ""
     
-    let introductions = List<Introduction>()
-    let exercises = List<Exercise>()
-    let flashcards = List<Flashcard>()
-    let tests = List<Test>()
+    @objc dynamic var updatedAt: String = ""
+    @objc dynamic var createdAt: String = ""
+    
+    var introductions = List<Introduction>()
+    var exercises = List<Exercise>()
+    var flashcards = List<Flashcard>()
+    var tests = List<Test>()
 }

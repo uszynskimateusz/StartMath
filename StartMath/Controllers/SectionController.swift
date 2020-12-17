@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SectionController: UIViewController {
 
@@ -15,11 +16,37 @@ class SectionController: UIViewController {
     @IBOutlet weak var flashcardButton: UIButton!
     @IBOutlet weak var testButton: UIButton!
     
-    var selectedSection: SectionModel?
-    var exerciseList: [ExerciseModel] = []
-    var flashcardList: [FlashcardModel] = []
-    var introduction: IntroductionModel?
-    var testList: [TestModel] = []
+    var exercises: Results<Exercise>?
+    var flashcards: Results<Flashcard>?
+    var introductions: Results<Introduction>?
+    var tests: Results<Test>?
+    
+    let realm = try! Realm()
+    
+    var selectedSection: Section? {
+        didSet{
+            loadExercises()
+            loadFlashcards()
+            loadIntroductions()
+            loadTests()
+        }
+    }
+    
+    func loadExercises() {
+        exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
+    }
+    
+    func loadFlashcards() {
+        flashcards = selectedSection?.flashcards.sorted(byKeyPath: "title", ascending: true)
+    }
+    
+    func loadIntroductions() {
+        introductions = selectedSection?.introductions.sorted(byKeyPath: "title", ascending: true)
+    }
+    
+    func loadTests() {
+        tests = selectedSection?.tests.sorted(byKeyPath: "title", ascending: true)
+    }
     
     var contentfulManager = ContentfulManager()
 
@@ -28,21 +55,6 @@ class SectionController: UIViewController {
 
         // Do any additional setup after loading the view.
         contentfulManager.delegate = self
-        
-        introductionButton.isEnabled = false
-        exerciseButton.isEnabled = false
-        flashcardButton.isEnabled = false
-        testButton.isEnabled = false
-        
-        if let section = selectedSection {
-            contentfulManager.fetchExercise(exerciseID: section.exercise)
-            contentfulManager.fetchFlashcard(flashcardID: section.flashcard)
-            contentfulManager.fetchIntroduction(introductionID: section.introduction)
-            contentfulManager.fetchTest(testID: section.test)
-            
-            sectionLabel.text = section.title
-        }
-
     }
     @IBAction func introductionButton(_ sender: UIButton) {
         performSegue(withIdentifier: "goToIntroduction", sender: sender)
@@ -66,21 +78,20 @@ class SectionController: UIViewController {
             switch identifier {
             case "goToIntroduction":
                 let destinationVC = segue.destination as! IntroductionController
-                if let i = introduction {
-                    destinationVC.introduction = i
-                }
+                destinationVC.introduction = introductions?.first
             
             case "goToExercisesList":
                 let destinationVC = segue.destination as! ExerciseListController
-                destinationVC.exerciseTab = exerciseList
+                destinationVC.exercises = exercises
+                destinationVC.selectedSection = selectedSection
                 
             case "goToFlashcards":
                 let destinationVC = segue.destination as! FlashcardController
-                destinationVC.flashcardTab = flashcardList
+                destinationVC.flashcards = flashcards
                 
             case "goToTest":
                 let destinationVC = segue.destination as! TestController
-                destinationVC.testTab = testList
+                destinationVC.tests = tests
                 
             default: break
                 
@@ -93,42 +104,5 @@ class SectionController: UIViewController {
 
 extension SectionController: ContentfulManagerDelegate {
     func update() {
-        
-    }
-    
-    func didUpdateTest(_ test: [TestModel]) {
-        testList = test
-        
-        DispatchQueue.main.async {
-            self.testButton.isEnabled = true
-        }
-    }
-    
-    func didUpdateIntroducton(_ introduction: IntroductionModel) {
-        self.introduction = introduction
-        
-        DispatchQueue.main.async {
-            self.introductionButton.isEnabled = true
-        }
-    }
-    
-    func didUpdateFlashcard(_ flashcards: [FlashcardModel]) {
-        flashcardList = flashcards
-        
-        DispatchQueue.main.async {
-            self.flashcardButton.isEnabled = true
-        }
-    }
-    
-    func didUpdateSection(_ sections: [SectionModel]) {
-        
-    }
-    
-    func didUpdateExercise(_ exercises: [ExerciseModel]) {
-        exerciseList = exercises
-        
-        DispatchQueue.main.async {
-            self.exerciseButton.isEnabled = true
-        }
     }
 }

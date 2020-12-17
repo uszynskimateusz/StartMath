@@ -35,4 +35,5 @@ struct Sys: Decodable {
 
 struct SysSection: Decodable {
     let updatedAt: String
+    let createdAt: String
 }

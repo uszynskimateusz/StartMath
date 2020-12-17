@@ -11,4 +11,7 @@ import RealmSwift
 class Introduction: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var descriptionIntroduction: String = ""
+    
+    @objc dynamic var updatedAt: String = ""
+    @objc dynamic var createdAt: String = ""
 }

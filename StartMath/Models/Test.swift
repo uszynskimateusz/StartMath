@@ -16,4 +16,7 @@ class Test: Object {
     @objc dynamic var answerC: String = ""
     @objc dynamic var answerD: String = ""
     @objc dynamic var answerCorrect: String = ""
+    
+    @objc dynamic var updatedAt: String = ""
+    @objc dynamic var createdAt: String = ""
 }

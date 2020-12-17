@@ -12,8 +12,6 @@ class ChooseSectionController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var sectionTableView: UITableView!
     
-    var sectionList: [SectionModel] = []
-    
     let realm = try! Realm()
     var sections: Results<Section>?
     
@@ -58,27 +56,6 @@ extension ChooseSectionController: ContentfulManagerDelegate {
     func update() {
         sectionTableView.reloadData()
     }
-    
-    func didUpdateTest(_ test: [TestModel]) {
-    }
-    
-    func didUpdateIntroducton(_ introduction: IntroductionModel) {
-    }
-    
-    func didUpdateFlashcard(_ flashcards: [FlashcardModel]) {
-        
-    }
-    
-    func didUpdateExercise(_ exercises: [ExerciseModel]) {
-        
-    }
-    
-    func didUpdateSection(_ sections: [SectionModel]) {
-        sectionList = sections
-        DispatchQueue.main.async {
-            self.sectionTableView.reloadData()
-        }
-    }
 }
 
 extension ChooseSectionController: UITableViewDelegate {
@@ -90,7 +67,7 @@ extension ChooseSectionController: UITableViewDelegate {
         let destinationVC = segue.destination as! SectionController
         
         if let indexPath = sectionTableView.indexPathForSelectedRow {
-           destinationVC.selectedSection = sectionList[indexPath.row]
+           destinationVC.selectedSection = sections?[indexPath.row]
         }
     }
 }

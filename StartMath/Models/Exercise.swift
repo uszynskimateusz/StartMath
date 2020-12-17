@@ -12,5 +12,9 @@ class Exercise: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var descriptionExercise: String = ""
     @objc dynamic var answer: String = ""
-    @objc dynamic var  image: NSData = NSData()
+    @objc dynamic var image: NSData = NSData()
+    @objc dynamic var done: Bool = false
+    
+    @objc dynamic var updatedAt: String = ""
+    @objc dynamic var createdAt: String = ""
 }

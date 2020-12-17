@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class TestController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
@@ -16,7 +17,7 @@ class TestController: UIViewController {
     @IBOutlet weak var answearCButton: UIButton!
     @IBOutlet weak var answearDButton: UIButton!
     
-    var testTab: [TestModel] = []
+    var tests: Results<Test>?
 
     var exerciseNumber = 0
     var score = 0
@@ -29,34 +30,42 @@ class TestController: UIViewController {
     }
     
     func checkAnswer(_ userAnswer: String) -> UIColor {
-        if userAnswer == testTab[exerciseNumber].answerCorrect {
-            score += 1
-            return UIColor.green //good answer
-        } else {
-            return UIColor.red //bad answer
+        if let t = tests {
+            if userAnswer == t[exerciseNumber].answerCorrect {
+                score += 1
+                return UIColor.green //good answer
+            } else {
+                return UIColor.red //bad answer
+            }
         }
+        
+        return UIColor.clear
     }
     
     func nextQuestion() {
-        if exerciseNumber < testTab.count - 1 {
-            exerciseNumber += 1
-        } else {
-            score = 0
-            exerciseNumber = 0
-            
-            navigationController?.popViewController(animated: true)
+        if let t = tests {
+            if exerciseNumber < t.count - 1 {
+                exerciseNumber += 1
+            } else {
+                score = 0
+                exerciseNumber = 0
+                
+                navigationController?.popViewController(animated: true)
+            }
         }
     }
     
     @objc func updateUI() {
-        titleLabel.text = testTab[exerciseNumber].title
-        descriptionLabel.text = testTab[exerciseNumber].description
-        answearAButton.setTitle(testTab[exerciseNumber].answerA, for: .normal)
-        answearBButton.setTitle(testTab[exerciseNumber].answerB, for: .normal)
-        answearCButton.setTitle(testTab[exerciseNumber].answerC, for: .normal)
-        answearDButton.setTitle(testTab[exerciseNumber].answerD, for: .normal)
-        
-        progressBar.progress = Float(exerciseNumber+1)/Float(testTab.count)
+        if let t = tests {
+            titleLabel.text = t[exerciseNumber].title
+            descriptionLabel.text = t[exerciseNumber].descriptionTest
+            answearAButton.setTitle(t[exerciseNumber].answerA, for: .normal)
+            answearBButton.setTitle(t[exerciseNumber].answerB, for: .normal)
+            answearCButton.setTitle(t[exerciseNumber].answerC, for: .normal)
+            answearDButton.setTitle(t[exerciseNumber].answerD, for: .normal)
+            
+            progressBar.progress = Float(exerciseNumber+1)/Float(tests?.count ?? 1)
+        }
 
         answearAButton.backgroundColor = UIColor.clear
         answearBButton.backgroundColor = UIColor.clear
