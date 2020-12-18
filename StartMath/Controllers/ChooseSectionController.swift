@@ -32,7 +32,10 @@ class ChooseSectionController: UIViewController {
     
     func loadSection() {
         sections = realm.objects(Section.self)
-        
+        sectionTableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         sectionTableView.reloadData()
     }
 }

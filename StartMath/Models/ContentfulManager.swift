@@ -403,7 +403,6 @@ struct ContentfulManager {
                                 e.answer = exer.answer
                                 e.updatedAt = exer.updatedAt
                                 e.image = exer.image
-                                e.done = false
                             }
                         } catch {
                             print("Error with update Exer to Realm: \(error)")

@@ -47,10 +47,16 @@ class TestController: UIViewController {
             if exerciseNumber < t.count - 1 {
                 exerciseNumber += 1
             } else {
-                score = 0
-                exerciseNumber = 0
-                
-                navigationController?.popViewController(animated: true)
+                let alert = UIAlertController(title: "Score: ", message: "\(score) / \(t.count)", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { (action) in
+                    self.score = 0
+                    self.exerciseNumber = 0
+                    self.updateUI()
+                }))
+                self.present(alert, animated: true)
             }
         }
     }
@@ -64,7 +70,7 @@ class TestController: UIViewController {
             answearCButton.setTitle(t[exerciseNumber].answerC, for: .normal)
             answearDButton.setTitle(t[exerciseNumber].answerD, for: .normal)
             
-            progressBar.progress = Float(exerciseNumber+1)/Float(tests?.count ?? 1)
+            progressBar.progress = Float(exerciseNumber+1)/Float(t.count)
         }
 
         answearAButton.backgroundColor = UIColor.clear
