@@ -40,7 +40,7 @@ struct ContentfulManager {
                 }
                 
                 if let safeData = data {
-                    parseJSON(data: safeData)
+                    parseSection(data: safeData)
                 }
             }
             
@@ -48,7 +48,7 @@ struct ContentfulManager {
         }
     }
     
-    func parseJSON(data: Data) {
+    func parseSection(data: Data) {
         var sections: Results<Section>?
         DispatchQueue.main.async {
             sections = realm.objects(Section.self)
@@ -62,7 +62,7 @@ struct ContentfulManager {
                 newSection.title = d.fields.title
                 newSection.updatedAt = d.sys.updatedAt
                 newSection.createdAt = d.sys.createdAt
-    
+                
                 DispatchQueue.main.async {
                     saveSection(newSection, sections: sections)
                 }
@@ -73,27 +73,164 @@ struct ContentfulManager {
                 for e in d.fields.exercises {
                     exercises.append(e.sys.id)
                 }
-                fetchExer(exerID: exercises, section: newSection)
+                fetchData(id: exercises, section: newSection, type: "Exercise")
                 
                 var flashcards: [String] = []
                 for f in d.fields.flashcards {
                     flashcards.append(f.sys.id)
                 }
-                fetchFlash(flashID: flashcards, section: newSection)
+                fetchData(id: flashcards, section: newSection, type: "Flashcard")
                 
                 var tests: [String] = []
                 for t in d.fields.test {
                     tests.append(t.sys.id)
                 }
-                fetchTest(testID: tests, section: newSection)
-                
+                fetchData(id: tests, section: newSection, type: "Test")
             }
             
         } catch {
             print("Error with decode exercise: \(error)")
         }
     }
+    //MARK: - Fetch Data
+    func parseData(data: Data, id: [String], secion: Section, type: String) {
+        var tests: Results<Test>?
+        var exercises: Results<Exercise>?
+        var flashcards: Results<Flashcard>?
+        DispatchQueue.main.async {
+            switch type {
+            case "Test":
+                tests = realm.objects(Test.self)
+                
+            case "Exercise":
+                exercises = realm.objects(Exercise.self)
+                
+            case "Flashcard":
+                flashcards = realm.objects(Flashcard.self)
+            default:
+                break
+            }
+        }
+        let decoder = JSONDecoder()
+        do {
+            switch type {
+            case "Test":
+                let decodedData = try decoder.decode(TestData.self, from: data)
+                for t in id {
+                    for d in decodedData.items {
+                        if d.sys.id == t {
+                            let test = Test()
+                            test.title = d.fields.title
+                            test.descriptionTest = d.fields.description
+                            test.answerA = d.fields.answerA
+                            test.answerB = d.fields.answerB
+                            test.answerC = d.fields.answerC
+                            test.answerD = d.fields.answerD
+                            test.answerCorrect = d.fields.answerCorrect
+                            test.createdAt = d.sys.createdAt
+                            test.updatedAt = d.sys.updatedAt
+                            
+                            DispatchQueue.main.async {
+                                saveTest(test, section: secion, tests: tests)
+                            }
+                        }
+                    }
+                }
+                
+            case "Exercise":
+                let decodedData = try decoder.decode(ExerciseData.self, from: data)
+                for e in id {
+                    for d in decodedData.items {
+                        if d.sys.id == e {
+                            for i in decodedData.includes.Asset {
+                                if d.fields.image.sys.id == i.sys.id {
+                                    if let urlImage = URL(string: "https:\(i.fields.file.url)") {
+                                        if let uiImage = UIImage(url: urlImage) {
+                                            let newExer = Exercise()
+                                            newExer.title = d.fields.title
+                                            newExer.descriptionExercise = d.fields.description
+                                            newExer.answer = d.fields.answer
+                                            newExer.image = NSData(data: uiImage.pngData()!)
+                                            newExer.createdAt = d.sys.createdAt
+                                            newExer.updatedAt = d.sys.updatedAt
+                                            
+                                            DispatchQueue.main.async {
+                                                saveExer(newExer, section: secion, exercises: exercises)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            case "Flashcard":
+                let decodedData = try decoder.decode(FlashcardData.self, from: data)
+                for f in id {
+                    for d in decodedData.items{
+                        if d.sys.id == f {
+                            for i in decodedData.includes.Asset {
+                                if d.fields.image.sys.id == i.sys.id {
+                                    if let urlImage = URL(string: "https:\(i.fields.file.url)") {
+                                        if let uiImage = UIImage(url: urlImage) {
+                                            let flash = Flashcard()
+                                            flash.title = d.fields.title
+                                            flash.descriptionFlashcard = d.fields.description
+                                            flash.image = NSData(data: uiImage.pngData()!)
+                                            flash.createdAt = d.sys.createdAt
+                                            flash.updatedAt = d.sys.updatedAt
+                                            
+                                            DispatchQueue.main.async {
+                                                saveFlash(flash, section: secion, flashcards: flashcards)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        } catch {
+            print("Error with decode Data: \(error)")
+        }
+    }
     
+    func fetchData(id: [String], section: Section, type: String) {
+        var url = ""
+        switch type {
+        case "Exercise":
+            url = exerciseURL
+            
+        case "Test":
+            url = testURL
+            
+        case "Flashcard":
+            url = flashcardURL
+            
+        default:
+            break
+        }
+        if let url = URL(string: url) { //entries URL
+            let session = URLSession(configuration: .default) //url session create
+            
+            //give session a task
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                if let safeData = data {
+                    parseData(data: safeData, id: id, secion: section, type: type)
+                }
+            }
+            
+            task.resume() //start task
+        }
+    }
     
     //MARK: Fetch Introduction
     func fetchIntro(introID: String, section: Section) {
@@ -141,178 +278,6 @@ struct ContentfulManager {
             
         } catch {
             print("Error with decode Intro: \(error)")
-        }
-    }
-    
-    //MARK: Fetch Exercise
-    func fetchExer(exerID: [String], section: Section) {
-        if let url = URL(string: exerciseURL) { //entries URL
-            let session = URLSession(configuration: .default) //url session create
-            
-            //give session a task
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    parseExer(data: safeData, id: exerID, secion: section)
-                }
-            }
-            
-            task.resume() //start task
-        }
-    }
-    
-    func parseExer(data: Data, id: [String], secion: Section) {
-        var exercises: Results<Exercise>?
-        DispatchQueue.main.async {
-            exercises = realm.objects(Exercise.self)
-        }
-        let decoder = JSONDecoder()
-        do {
-            let decodedData = try decoder.decode(ExerciseData.self, from: data)
-            for e in id {
-                for d in decodedData.items {
-                    if d.sys.id == e {
-                        for i in decodedData.includes.Asset {
-                            if d.fields.image.sys.id == i.sys.id {
-                                if let urlImage = URL(string: "https:\(i.fields.file.url)") {
-                                    if let uiImage = UIImage(url: urlImage) {
-                                        let newExer = Exercise()
-                                        newExer.title = d.fields.title
-                                        newExer.descriptionExercise = d.fields.description
-                                        newExer.answer = d.fields.answer
-                                        newExer.image = NSData(data: uiImage.pngData()!)
-                                        newExer.createdAt = d.sys.createdAt
-                                        newExer.updatedAt = d.sys.updatedAt
-                                        
-                                        DispatchQueue.main.async {
-                                            saveExer(newExer, section: secion, exercises: exercises)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch {
-            print("Error with decode exercise: \(error)")
-        }
-    }
-    
-    //MARK: Fetch Flashcard
-    func fetchFlash(flashID: [String], section: Section) {
-        if let url = URL(string: flashcardURL) { //entries URL
-            let session = URLSession(configuration: .default) //url session create
-            
-            //give session a task
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    parseFlash(data: safeData, id: flashID, secion: section)
-                }
-            }
-            
-            task.resume() //start task
-        }
-    }
-    
-    func parseFlash(data: Data, id: [String], secion: Section) {
-        var flashcards: Results<Flashcard>?
-        DispatchQueue.main.async {
-            flashcards = realm.objects(Flashcard.self)
-        }
-        let decoder = JSONDecoder()
-        do {
-            let decodedData = try decoder.decode(FlashcardData.self, from: data)
-            for f in id {
-                for d in decodedData.items{
-                    if d.sys.id == f {
-                        for i in decodedData.includes.Asset {
-                            if d.fields.image.sys.id == i.sys.id {
-                                if let urlImage = URL(string: "https:\(i.fields.file.url)") {
-                                    if let uiImage = UIImage(url: urlImage) {
-                                        let flash = Flashcard()
-                                        flash.title = d.fields.title
-                                        flash.descriptionFlashcard = d.fields.description
-                                        flash.image = NSData(data: uiImage.pngData()!)
-                                        flash.createdAt = d.sys.createdAt
-                                        flash.updatedAt = d.sys.updatedAt
-                                        
-                                        DispatchQueue.main.async {
-                                            saveFlash(flash, section: secion, flashcards: flashcards)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch {
-            print("Error with decode flash: \(error)")
-        }
-    }
-    
-    //MARK: Fetch Test
-    func fetchTest(testID: [String], section: Section) {
-        if let url = URL(string: testURL) { //entries URL
-            let session = URLSession(configuration: .default) //url session create
-            
-            //give session a task
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    parseTest(data: safeData, id: testID, secion: section)
-                }
-            }
-            
-            task.resume() //start task
-        }
-    }
-    
-    func parseTest(data: Data, id: [String], secion: Section) {
-        var tests: Results<Test>?
-        DispatchQueue.main.async {
-            tests = realm.objects(Test.self)
-        }
-        let decoder = JSONDecoder()
-        do {
-            let decodedData = try decoder.decode(TestData.self, from: data)
-            for t in id {
-                for d in decodedData.items {
-                    if d.sys.id == t {
-                        let test = Test()
-                        test.title = d.fields.title
-                        test.descriptionTest = d.fields.description
-                        test.answerA = d.fields.answerA
-                        test.answerB = d.fields.answerB
-                        test.answerC = d.fields.answerC
-                        test.answerD = d.fields.answerD
-                        test.answerCorrect = d.fields.answerCorrect
-                        test.createdAt = d.sys.createdAt
-                        test.updatedAt = d.sys.updatedAt
-                        
-                        DispatchQueue.main.async {
-                            saveTest(test, section: secion, tests: tests)
-                        }
-                    }
-                }
-            }
-            
-        } catch {
-            print("Error with decode Test: \(error)")
         }
     }
     

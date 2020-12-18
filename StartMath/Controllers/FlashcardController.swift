@@ -13,6 +13,7 @@ class FlashcardController: UIViewController {
     @IBOutlet weak var flashcardTableView: UITableView!
     
     var flashcards: Results<Flashcard>?
+    var label: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,10 @@ class FlashcardController: UIViewController {
         flashcardTableView.dataSource = self
         
         flashcardTableView.register(UINib(nibName: "FlashcardCell", bundle: nil), forCellReuseIdentifier: "flashcardCell")
+        
+        if let s = label {
+            sectionLabel.text = s
+        }
     }
 }
 

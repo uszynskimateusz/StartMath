@@ -55,6 +55,8 @@ class SectionController: UIViewController {
 
         // Do any additional setup after loading the view.
         contentfulManager.delegate = self
+        
+        sectionLabel.text = selectedSection?.title
     }
     @IBAction func introductionButton(_ sender: UIButton) {
         performSegue(withIdentifier: "goToIntroduction", sender: sender)
@@ -88,6 +90,7 @@ class SectionController: UIViewController {
             case "goToFlashcards":
                 let destinationVC = segue.destination as! FlashcardController
                 destinationVC.flashcards = flashcards
+                destinationVC.label = selectedSection?.title
                 
             case "goToTest":
                 let destinationVC = segue.destination as! TestController

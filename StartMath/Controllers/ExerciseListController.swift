@@ -20,6 +20,19 @@ class ExerciseListController: UIViewController {
         }
     }
     
+    func calcExercise() {
+        var counter = 0
+        if let exerList = exercises {
+            for e in exerList {
+                if e.done == true {
+                    counter += 1
+                }
+            }
+            
+            exerciseLabel.text = "\(counter) / \(exerList.count) done"
+        }
+    }
+    
     func loadExercises() {
         print("Wczytanie")
         exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
@@ -34,10 +47,13 @@ class ExerciseListController: UIViewController {
         
         
         exercisesTableView.register(UINib(nibName: "ExerciseCell", bundle: nil), forCellReuseIdentifier: "exercisesCell")
+        
+        calcExercise()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         exercisesTableView.reloadData()
+        calcExercise()
     }
 }
 
