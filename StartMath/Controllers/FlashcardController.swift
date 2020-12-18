@@ -18,8 +18,6 @@ class FlashcardController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
         flashcardTableView.dataSource = self
         
         flashcardTableView.register(UINib(nibName: "FlashcardCell", bundle: nil), forCellReuseIdentifier: "flashcardCell")

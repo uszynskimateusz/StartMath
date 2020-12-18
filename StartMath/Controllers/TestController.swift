@@ -26,7 +26,6 @@ class TestController: UIViewController {
         super.viewDidLoad()
 
         updateUI()
-        // Do any additional setup after loading the view.
     }
     
     func checkAnswer(_ userAnswer: String) -> UIColor {

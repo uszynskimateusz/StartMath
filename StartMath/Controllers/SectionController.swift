@@ -21,8 +21,6 @@ class SectionController: UIViewController {
     var introductions: Results<Introduction>?
     var tests: Results<Test>?
     
-    let realm = try! Realm()
-    
     var selectedSection: Section? {
         didSet{
             loadExercises()
@@ -53,9 +51,6 @@ class SectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        contentfulManager.delegate = self
-        
         sectionLabel.text = selectedSection?.title
     }
     @IBAction func introductionButton(_ sender: UIButton) {
@@ -100,12 +95,5 @@ class SectionController: UIViewController {
                 
             }
         }
-    }
-    
-
-}
-
-extension SectionController: ContentfulManagerDelegate {
-    func update() {
     }
 }

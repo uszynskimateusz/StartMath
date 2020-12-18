@@ -12,15 +12,14 @@ class ChooseSectionController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var sectionTableView: UITableView!
     
-    let realm = try! Realm()
+    let realm = try? Realm()
     var sections: Results<Section>?
     
     var contentfulManager = ContentfulManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
+
         contentfulManager.delegate = self
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
@@ -31,8 +30,10 @@ class ChooseSectionController: UIViewController {
     }
     
     func loadSection() {
-        sections = realm.objects(Section.self)
-        sectionTableView.reloadData()
+        if let realM = realm {
+            sections = realM.objects(Section.self)
+            sectionTableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

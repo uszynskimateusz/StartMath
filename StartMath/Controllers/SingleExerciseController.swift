@@ -13,14 +13,11 @@ class SingleExerciseController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageImageView: UIImageView!
     
-    let realm = try! Realm()
+    let realm = try? Realm()
     var exercise: Exercise?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
         
         if let e = exercise {
             titleLabel.text = e.title
@@ -38,8 +35,10 @@ class SingleExerciseController: UIViewController {
         
         if let exerciseDone = exercise {
             do {
-                try realm.write {
-                    exerciseDone.done = true
+                if let realM = realm {
+                    try realM.write {
+                        exerciseDone.done = true
+                    }
                 }
             } catch {
                 print("Error with updating, \(error.localizedDescription)")

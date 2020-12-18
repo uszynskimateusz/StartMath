@@ -13,7 +13,7 @@ protocol ContentfulManagerDelegate {
 }
 
 struct ContentfulManager {
-    let realm = try! Realm()
+    let realm = try? Realm()
     
     let sectionURL = "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=section"
     
@@ -51,7 +51,9 @@ struct ContentfulManager {
     func parseSection(data: Data) {
         var sections: Results<Section>?
         DispatchQueue.main.async {
-            sections = realm.objects(Section.self)
+            if let realM = realm {
+                sections = realM.objects(Section.self)
+            }
         }
         
         let decoder = JSONDecoder()
@@ -100,13 +102,20 @@ struct ContentfulManager {
         DispatchQueue.main.async {
             switch type {
             case "Test":
-                tests = realm.objects(Test.self)
+                if let realM = realm {
+                    tests = realM.objects(Test.self)
+                }
                 
             case "Exercise":
-                exercises = realm.objects(Exercise.self)
+                if let realM = realm {
+                    exercises = realM.objects(Exercise.self)
+                }
                 
             case "Flashcard":
-                flashcards = realm.objects(Flashcard.self)
+                if let realM = realm {
+                    flashcards = realM.objects(Flashcard.self)
+                }
+        
             default:
                 break
             }
@@ -256,7 +265,9 @@ struct ContentfulManager {
     func parseIntro(data: Data, id: String, secion: Section) {
         var introductions: Results<Introduction>?
         DispatchQueue.main.async {
-            introductions = realm.objects(Introduction.self)
+            if let realM = realm {
+                introductions = realM.objects(Introduction.self)
+            }
         }
         let decoder = JSONDecoder()
         do {
@@ -290,15 +301,17 @@ struct ContentfulManager {
                     exist = true
                     if t.updatedAt != test.updatedAt {
                         do {
-                            try realm.write {
-                                t.title = test.title
-                                t.descriptionTest = test.descriptionTest
-                                t.answerA = test.answerA
-                                t.answerB = test.answerB
-                                t.answerC = test.answerC
-                                t.answerD = test.answerD
-                                t.answerCorrect = test.answerCorrect
-                                t.updatedAt = test.updatedAt
+                            if let realM = realm {
+                                try realM.write {
+                                    t.title = test.title
+                                    t.descriptionTest = test.descriptionTest
+                                    t.answerA = test.answerA
+                                    t.answerB = test.answerB
+                                    t.answerC = test.answerC
+                                    t.answerD = test.answerD
+                                    t.answerCorrect = test.answerCorrect
+                                    t.updatedAt = test.updatedAt
+                                }
                             }
                         } catch {
                             print("Error with update Test to Realm: \(error)")
@@ -310,9 +323,11 @@ struct ContentfulManager {
         
         if exist == false {
             do {
-                try self.realm.write {
-                    section.tests.append(test)
-                    delegate?.update()
+                if let realM = self.realm {
+                    try realM.write {
+                        section.tests.append(test)
+                        delegate?.update()
+                    }
                 }
             } catch {
                 print("Error with saving Test, \(error.localizedDescription)")
@@ -328,11 +343,13 @@ struct ContentfulManager {
                     exist = true
                     if f.updatedAt != flash.updatedAt {
                         do {
-                            try realm.write {
-                                f.title = flash.title
-                                f.descriptionFlashcard = flash.descriptionFlashcard
-                                f.image = flash.image
-                                f.updatedAt = flash.updatedAt
+                            if let realM = realm {
+                                try realM.write {
+                                    f.title = flash.title
+                                    f.descriptionFlashcard = flash.descriptionFlashcard
+                                    f.image = flash.image
+                                    f.updatedAt = flash.updatedAt
+                                }
                             }
                         } catch {
                             print("Error with update Flashcard to Realm: \(error)")
@@ -344,9 +361,11 @@ struct ContentfulManager {
         
         if exist == false {
             do {
-                try self.realm.write {
-                    section.flashcards.append(flash)
-                    delegate?.update()
+                if let realM = self.realm {
+                    try realM.write {
+                        section.flashcards.append(flash)
+                        delegate?.update()
+                    }
                 }
             } catch {
                 print("Error with saving flshcard, \(error.localizedDescription)")
@@ -362,12 +381,14 @@ struct ContentfulManager {
                     exist = true
                     if e.updatedAt != exer.updatedAt {
                         do {
-                            try realm.write {
-                                e.title = exer.title
-                                e.descriptionExercise = exer.descriptionExercise
-                                e.answer = exer.answer
-                                e.updatedAt = exer.updatedAt
-                                e.image = exer.image
+                            if let realM = realm {
+                                try realM.write {
+                                    e.title = exer.title
+                                    e.descriptionExercise = exer.descriptionExercise
+                                    e.answer = exer.answer
+                                    e.updatedAt = exer.updatedAt
+                                    e.image = exer.image
+                                }
                             }
                         } catch {
                             print("Error with update Exer to Realm: \(error)")
@@ -379,9 +400,11 @@ struct ContentfulManager {
         
         if exist == false {
             do {
-                try self.realm.write {
-                    section.exercises.append(exer)
-                    delegate?.update()
+                if let realM = self.realm {
+                    try realM.write {
+                        section.exercises.append(exer)
+                        delegate?.update()
+                    }
                 }
             } catch {
                 print("Error with saving Exercise, \(error.localizedDescription)")
@@ -397,10 +420,12 @@ struct ContentfulManager {
                     exist = true
                     if i.updatedAt != intro.updatedAt {
                         do {
-                            try realm.write {
-                                i.title = intro.title
-                                i.descriptionIntroduction = intro.descriptionIntroduction
-                                i.updatedAt = intro.updatedAt
+                            if let realM = realm {
+                                try realM.write {
+                                    i.title = intro.title
+                                    i.descriptionIntroduction = intro.descriptionIntroduction
+                                    i.updatedAt = intro.updatedAt
+                                }
                             }
                         } catch {
                             print("Error with update Introduction to Realm: \(error)")
@@ -411,9 +436,11 @@ struct ContentfulManager {
         }
         if exist == false {
             do {
-                try self.realm.write {
-                    section.introductions.append(intro)
-                    delegate?.update()
+                if let realM = self.realm {
+                    try realM.write {
+                        section.introductions.append(intro)
+                        delegate?.update()
+                    }
                 }
             } catch {
                 print("Error with saving introductions, \(error.localizedDescription)")
@@ -429,13 +456,15 @@ struct ContentfulManager {
                     exist = true
                     if s.updatedAt != newSection.updatedAt {
                         do {
-                            try realm.write {
-                                s.title = newSection.title
-                                s.updatedAt = newSection.updatedAt
-                                s.exercises = newSection.exercises
-                                s.flashcards = newSection.flashcards
-                                s.introductions = newSection.introductions
-                                s.tests = newSection.tests
+                            if let realM = realm {
+                                try realM.write {
+                                    s.title = newSection.title
+                                    s.updatedAt = newSection.updatedAt
+                                    s.exercises = newSection.exercises
+                                    s.flashcards = newSection.flashcards
+                                    s.introductions = newSection.introductions
+                                    s.tests = newSection.tests
+                                }
                             }
                         } catch {
                             print("Error with updating Section to Realm: \(error)")
@@ -447,9 +476,11 @@ struct ContentfulManager {
         
         if exist == false {
             do {
-                try realm.write {
-                    realm.add(newSection)
-                    delegate?.update()
+                if let realM = realm {
+                    try realM.write {
+                        realM.add(newSection)
+                        delegate?.update()
+                    }
                 }
             } catch {
                 print("Error with save Section to Realm: \(error)")

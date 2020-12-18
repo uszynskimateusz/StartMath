@@ -41,7 +41,6 @@ class ExerciseListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         exercisesTableView.dataSource = self
         exercisesTableView.delegate = self
         
