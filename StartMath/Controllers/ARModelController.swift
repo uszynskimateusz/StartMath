@@ -6,24 +6,65 @@
 //
 
 import UIKit
+import SceneKit
+import ARKit
 
-class ARModelController: UIViewController {
-
+class ARModelController: UIViewController, ARSCNViewDelegate {
+    @IBOutlet weak var sceneView: ARSCNView!
+    
+    var itemArray = [SCNNode]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        
+        sceneView.delegate = self
+        sceneView.autoenablesDefaultLighting = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
+        
+        sceneView.session.run(configuration)
     }
-    */
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        sceneView.session.pause()
+    }
+    
+    //MARK: - Rendering Methods
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: sceneView)
+            let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+            
+            if let hitResult = results.first {
+                addItem(at: hitResult)
+            }
+        }
+    }
+    
+    func addItem(at location: ARHitTestResult) {
+        let itemScene = SCNScene(named: "arModels/apple.scn")
+        
+        if let itemNode = itemScene?.rootNode.childNode(withName: "Apple", recursively: true) {
+            itemNode.position = SCNVector3(
+                location.worldTransform.columns.3.x,
+                location.worldTransform.columns.3.y + itemNode.boundingSphere.radius,
+                location.worldTransform.columns.3.z)
+            
+            itemArray.append(itemNode)
+            
+            sceneView.scene.rootNode.addChildNode(itemNode)
+        }
+    }
 }

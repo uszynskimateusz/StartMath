@@ -667,6 +667,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5B-GH-QTg">
                                                 <rect key="frame" x="153" y="32.5" width="108" height="30"/>
                                                 <state key="normal" title="Show AR Model"/>
+                                                <connections>
+                                                    <action selector="showARPressed:" destination="dH3-6M-hNV" eventType="touchUpInside" id="iR4-aX-eja"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -716,10 +719,10 @@
             </objects>
             <point key="canvasLocation" x="2741" y="-321"/>
         </scene>
-        <!--View Controller-->
+        <!--Model Controller-->
         <scene sceneID="Sko-L4-mXI">
             <objects>
-                <viewController id="Ji6-Db-gkW" sceneMemberID="viewController">
+                <viewController id="Ji6-Db-gkW" customClass="ARModelController" customModule="StartMath" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j1j-lQ-XW0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -738,6 +741,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cta-EX-6mY"/>
+                    <connections>
+                        <outlet property="sceneView" destination="wUC-tx-alA" id="R3p-qK-HOI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NTd-jB-eTZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
