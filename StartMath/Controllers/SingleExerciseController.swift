@@ -15,6 +15,7 @@ class SingleExerciseController: UIViewController {
     
     let realm = try? Realm()
     var exercise: Exercise?
+    var type: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +44,18 @@ class SingleExerciseController: UIViewController {
             } catch {
                 print("Error with updating, \(error.localizedDescription)")
             }
+        }
+    }
+    
+    @IBAction func showARPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToAR", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ARModelController
+        if let answerInt = Int(exercise!.answer) {
+            destinationVC.maxItem = answerInt
+            destinationVC.type = type
         }
     }
 }

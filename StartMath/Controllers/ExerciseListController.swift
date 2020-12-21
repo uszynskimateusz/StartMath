@@ -86,6 +86,10 @@ extension ExerciseListController: UITableViewDelegate {
 
         if let indexPath = exercisesTableView.indexPathForSelectedRow {
             destinationVC.exercise = exercises?[indexPath.row]
+            
+            if let sectionString = selectedSection?.title {
+                destinationVC.type = sectionString
+            }
         }
     }
 }

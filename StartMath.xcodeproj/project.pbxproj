@@ -37,6 +37,9 @@
 		69EA8B772590A2050016BE93 /* apple.dae in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B762590A2050016BE93 /* apple.dae */; };
 		69EA8B7A2590A2130016BE93 /* apple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B792590A2130016BE93 /* apple.jpg */; };
 		69EA8B7D2590A2C70016BE93 /* apple.scn in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B7C2590A2C70016BE93 /* apple.scn */; };
+		69EA8B822590A8A10016BE93 /* diceCollada.dae in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B802590A8A10016BE93 /* diceCollada.dae */; };
+		69EA8B832590A8A10016BE93 /* New_RedBase_Color.png in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B812590A8A10016BE93 /* New_RedBase_Color.png */; };
+		69EA8B862590AAB90016BE93 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8B852590AAB90016BE93 /* art.scnassets */; };
 		69F2277625879F7500C970FC /* FlashcardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2277525879F7500C970FC /* FlashcardController.swift */; };
 		DF1CF92E59B71A84BA7FAC8F /* Pods_StartMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 185DC99358F14B92BF966E44 /* Pods_StartMath.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +80,9 @@
 		69EA8B762590A2050016BE93 /* apple.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = apple.dae; sourceTree = "<group>"; };
 		69EA8B792590A2130016BE93 /* apple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpg; sourceTree = "<group>"; };
 		69EA8B7C2590A2C70016BE93 /* apple.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = apple.scn; sourceTree = "<group>"; };
+		69EA8B802590A8A10016BE93 /* diceCollada.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = diceCollada.dae; sourceTree = "<group>"; };
+		69EA8B812590A8A10016BE93 /* New_RedBase_Color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = New_RedBase_Color.png; sourceTree = "<group>"; };
+		69EA8B852590AAB90016BE93 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		69F2277525879F7500C970FC /* FlashcardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +125,7 @@
 				695369342585049B0058D1D5 /* Models */,
 				69536933258504900058D1D5 /* Views */,
 				69536931258504760058D1D5 /* Controllers */,
+				69EA8B852590AAB90016BE93 /* art.scnassets */,
 				695369252585046E0058D1D5 /* Assets.xcassets */,
 				695369272585046E0058D1D5 /* LaunchScreen.storyboard */,
 				6953692A2585046E0058D1D5 /* Info.plist */,
@@ -174,6 +181,8 @@
 		69EA8B7425909F3D0016BE93 /* arModels */ = {
 			isa = PBXGroup;
 			children = (
+				69EA8B802590A8A10016BE93 /* diceCollada.dae */,
+				69EA8B812590A8A10016BE93 /* New_RedBase_Color.png */,
 				69EA8B762590A2050016BE93 /* apple.dae */,
 				69EA8B792590A2130016BE93 /* apple.jpg */,
 				69EA8B7C2590A2C70016BE93 /* apple.scn */,
@@ -258,13 +267,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				695369292585046E0058D1D5 /* LaunchScreen.storyboard in Resources */,
+				69EA8B862590AAB90016BE93 /* art.scnassets in Resources */,
 				69EA8B772590A2050016BE93 /* apple.dae in Resources */,
 				695369262585046E0058D1D5 /* Assets.xcassets in Resources */,
 				69EA8B7A2590A2130016BE93 /* apple.jpg in Resources */,
 				69B83AC32588AD61000BF912 /* ExerciseCell.xib in Resources */,
+				69EA8B832590A8A10016BE93 /* New_RedBase_Color.png in Resources */,
 				69EA8B7D2590A2C70016BE93 /* apple.scn in Resources */,
 				69B83ABE2588A73D000BF912 /* FlashcardCell.xib in Resources */,
 				695369242585046C0058D1D5 /* Main.storyboard in Resources */,
+				69EA8B822590A8A10016BE93 /* diceCollada.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
