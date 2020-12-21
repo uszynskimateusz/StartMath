@@ -12,6 +12,13 @@ protocol ContentfulManagerDelegate {
     func update()
 }
 
+enum K: String {
+    case exercise = "Exercise"
+    case flashcard = "Flashcard"
+    case test = "Test"
+    case introduction = "Introduction"
+}
+
 struct ContentfulManager {
     let realm = try? Realm()
     
@@ -75,19 +82,19 @@ struct ContentfulManager {
                 for e in d.fields.exercises {
                     exercises.append(e.sys.id)
                 }
-                fetchData(id: exercises, section: newSection, type: "Exercise")
+                fetchData(id: exercises, section: newSection, type: .exercise)
                 
                 var flashcards: [String] = []
                 for f in d.fields.flashcards {
                     flashcards.append(f.sys.id)
                 }
-                fetchData(id: flashcards, section: newSection, type: "Flashcard")
+                fetchData(id: flashcards, section: newSection, type: .flashcard)
                 
                 var tests: [String] = []
                 for t in d.fields.test {
                     tests.append(t.sys.id)
                 }
-                fetchData(id: tests, section: newSection, type: "Test")
+                fetchData(id: tests, section: newSection, type: .test)
             }
             
         } catch {
@@ -95,23 +102,23 @@ struct ContentfulManager {
         }
     }
     //MARK: - Fetch Data
-    func parseData(data: Data, id: [String], secion: Section, type: String) {
+    func parseData(data: Data, id: [String], secion: Section, type: K) {
         var tests: Results<Test>?
         var exercises: Results<Exercise>?
         var flashcards: Results<Flashcard>?
         DispatchQueue.main.async {
             switch type {
-            case "Test":
+            case .test:
                 if let realM = realm {
                     tests = realM.objects(Test.self)
                 }
                 
-            case "Exercise":
+            case .exercise:
                 if let realM = realm {
                     exercises = realM.objects(Exercise.self)
                 }
                 
-            case "Flashcard":
+            case .flashcard:
                 if let realM = realm {
                     flashcards = realM.objects(Flashcard.self)
                 }
@@ -123,7 +130,7 @@ struct ContentfulManager {
         let decoder = JSONDecoder()
         do {
             switch type {
-            case "Test":
+            case .test:
                 let decodedData = try decoder.decode(TestData.self, from: data)
                 for t in id {
                     for d in decodedData.items {
@@ -146,7 +153,7 @@ struct ContentfulManager {
                     }
                 }
                 
-            case "Exercise":
+            case .exercise:
                 let decodedData = try decoder.decode(ExerciseData.self, from: data)
                 for e in id {
                     for d in decodedData.items {
@@ -173,7 +180,7 @@ struct ContentfulManager {
                         }
                     }
                 }
-            case "Flashcard":
+            case .flashcard:
                 let decodedData = try decoder.decode(FlashcardData.self, from: data)
                 for f in id {
                     for d in decodedData.items{
@@ -207,16 +214,16 @@ struct ContentfulManager {
         }
     }
     
-    func fetchData(id: [String], section: Section, type: String) {
+    func fetchData(id: [String], section: Section, type: K) {
         var url = ""
         switch type {
-        case "Exercise":
+        case .exercise:
             url = exerciseURL
             
-        case "Test":
+        case .test:
             url = testURL
             
-        case "Flashcard":
+        case .flashcard:
             url = flashcardURL
             
         default:

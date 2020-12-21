@@ -34,7 +34,6 @@ class ExerciseListController: UIViewController {
     }
     
     func loadExercises() {
-        print("Wczytanie")
         exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
     }
     

@@ -23,31 +23,16 @@ class SectionController: UIViewController {
     
     var selectedSection: Section? {
         didSet{
-            loadExercises()
-            loadFlashcards()
-            loadIntroductions()
-            loadTests()
+            loadData()
         }
     }
-    
-    func loadExercises() {
+    func loadData() {
         exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    func loadFlashcards() {
         flashcards = selectedSection?.flashcards.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    func loadIntroductions() {
         introductions = selectedSection?.introductions.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    func loadTests() {
         tests = selectedSection?.tests.sorted(byKeyPath: "title", ascending: true)
     }
     
-    var contentfulManager = ContentfulManager()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
