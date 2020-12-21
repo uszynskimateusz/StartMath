@@ -16,7 +16,7 @@ struct ExerciseData: Decodable {
 //main --> "items: []"
 struct ItemsExercise: Decodable {
     let fields: FieldsExercise
-    let sys: Sys
+    let sys: SysINFO
 }
 
 //main --> "items: []" --> fields

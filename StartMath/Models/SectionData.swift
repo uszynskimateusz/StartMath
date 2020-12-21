@@ -13,6 +13,7 @@ struct SectionData: Decodable {
 
 struct Items: Decodable {
     let fields: Fields
+    let sys: SysSection
 }
 
 struct Fields: Decodable {
@@ -30,4 +31,9 @@ struct FieldsOfSection: Decodable {
 
 struct Sys: Decodable {
     let id: String
+}
+
+struct SysSection: Decodable {
+    let updatedAt: String
+    let createdAt: String
 }

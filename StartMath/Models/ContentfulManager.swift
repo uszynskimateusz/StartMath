@@ -6,16 +6,15 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol ContentfulManagerDelegate {
-    func didUpdateSection(_ sections: [SectionModel])
-    func didUpdateExercise(_ exercises: [ExerciseModel])
-    func didUpdateFlashcard(_ flashcards: [FlashcardModel])
-    func didUpdateIntroducton(_ introduction: IntroductionModel)
-    func didUpdateTest(_ test: [TestModel])
+    func update()
 }
 
 struct ContentfulManager {
+    let realm = try? Realm()
+    
     let sectionURL = "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=section"
     
     let exerciseURL =  "https://cdn.contentful.com/spaces/ail58xyc0gux/environments/master/entries?access_token=uC-Uml8K_vA7wJMZOx0Aoi92ryGnXwcl7Gj0b1R_bac&content_type=exercise"
@@ -28,13 +27,10 @@ struct ContentfulManager {
     
     var delegate: ContentfulManagerDelegate?
     
-    //MARK: - Fetch Section Model
-    func fetchSection() {
-        //create URL
-        if let url = URL(string: sectionURL) {
-            
-            //create URLSession
-            let session = URLSession(configuration: .default)
+    //MARK: - Fetch Sections
+    func fetchAll(){
+        if let url = URL(string: sectionURL) { //entries URL
+            let session = URLSession(configuration: .default) //url session create
             
             //give session a task
             let task = session.dataTask(with: url) { (data, response, error) in
@@ -44,51 +40,189 @@ struct ContentfulManager {
                 }
                 
                 if let safeData = data {
-                    let sectionList = self.parseSection(section: safeData)
-                    delegate?.didUpdateSection(sectionList)
+                    parseSection(data: safeData)
                 }
             }
             
-            //start task
-            task.resume()
+            task.resume() //start task
         }
     }
     
-    func parseSection(section: Data) -> [SectionModel]{
+    func parseSection(data: Data) {
+        var sections: Results<Section>?
+        DispatchQueue.main.async {
+            if let realM = realm {
+                sections = realM.objects(Section.self)
+            }
+        }
+        
         let decoder = JSONDecoder()
-        var sectionList: [SectionModel] = []
         do {
-            let decodedData = try decoder.decode(SectionData.self, from: section)
+            let decodedData = try decoder.decode(SectionData.self, from: data)
             for d in decodedData.items {
-                var flashcards: [String] = []
-                for f in d.fields.flashcards {
-                    flashcards.append(f.sys.id)
+                let newSection = Section()
+                newSection.title = d.fields.title
+                newSection.updatedAt = d.sys.updatedAt
+                newSection.createdAt = d.sys.createdAt
+                
+                DispatchQueue.main.async {
+                    saveSection(newSection, sections: sections)
                 }
+                
+                fetchIntro(introID: d.fields.introduction.sys.id, section: newSection)
                 
                 var exercises: [String] = []
                 for e in d.fields.exercises {
                     exercises.append(e.sys.id)
                 }
+                fetchData(id: exercises, section: newSection, type: "Exercise")
+                
+                var flashcards: [String] = []
+                for f in d.fields.flashcards {
+                    flashcards.append(f.sys.id)
+                }
+                fetchData(id: flashcards, section: newSection, type: "Flashcard")
                 
                 var tests: [String] = []
                 for t in d.fields.test {
                     tests.append(t.sys.id)
                 }
-                
-                let sectionModel = SectionModel(title: d.fields.title, introduction: d.fields.introduction.sys.id, flashcard: flashcards, exercise: exercises, test: tests)
-                
-                sectionList.append(sectionModel)
+                fetchData(id: tests, section: newSection, type: "Test")
             }
+            
         } catch {
-            print("Error with decoding data: \(error)")
+            print("Error with decode exercise: \(error)")
         }
+    }
+    //MARK: - Fetch Data
+    func parseData(data: Data, id: [String], secion: Section, type: String) {
+        var tests: Results<Test>?
+        var exercises: Results<Exercise>?
+        var flashcards: Results<Flashcard>?
+        DispatchQueue.main.async {
+            switch type {
+            case "Test":
+                if let realM = realm {
+                    tests = realM.objects(Test.self)
+                }
+                
+            case "Exercise":
+                if let realM = realm {
+                    exercises = realM.objects(Exercise.self)
+                }
+                
+            case "Flashcard":
+                if let realM = realm {
+                    flashcards = realM.objects(Flashcard.self)
+                }
         
-        return sectionList
+            default:
+                break
+            }
+        }
+        let decoder = JSONDecoder()
+        do {
+            switch type {
+            case "Test":
+                let decodedData = try decoder.decode(TestData.self, from: data)
+                for t in id {
+                    for d in decodedData.items {
+                        if d.sys.id == t {
+                            let test = Test()
+                            test.title = d.fields.title
+                            test.descriptionTest = d.fields.description
+                            test.answerA = d.fields.answerA
+                            test.answerB = d.fields.answerB
+                            test.answerC = d.fields.answerC
+                            test.answerD = d.fields.answerD
+                            test.answerCorrect = d.fields.answerCorrect
+                            test.createdAt = d.sys.createdAt
+                            test.updatedAt = d.sys.updatedAt
+                            
+                            DispatchQueue.main.async {
+                                saveTest(test, section: secion, tests: tests)
+                            }
+                        }
+                    }
+                }
+                
+            case "Exercise":
+                let decodedData = try decoder.decode(ExerciseData.self, from: data)
+                for e in id {
+                    for d in decodedData.items {
+                        if d.sys.id == e {
+                            for i in decodedData.includes.Asset {
+                                if d.fields.image.sys.id == i.sys.id {
+                                    if let urlImage = URL(string: "https:\(i.fields.file.url)") {
+                                        if let uiImage = UIImage(url: urlImage) {
+                                            let newExer = Exercise()
+                                            newExer.title = d.fields.title
+                                            newExer.descriptionExercise = d.fields.description
+                                            newExer.answer = d.fields.answer
+                                            newExer.image = NSData(data: uiImage.pngData()!)
+                                            newExer.createdAt = d.sys.createdAt
+                                            newExer.updatedAt = d.sys.updatedAt
+                                            
+                                            DispatchQueue.main.async {
+                                                saveExer(newExer, section: secion, exercises: exercises)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            case "Flashcard":
+                let decodedData = try decoder.decode(FlashcardData.self, from: data)
+                for f in id {
+                    for d in decodedData.items{
+                        if d.sys.id == f {
+                            for i in decodedData.includes.Asset {
+                                if d.fields.image.sys.id == i.sys.id {
+                                    if let urlImage = URL(string: "https:\(i.fields.file.url)") {
+                                        if let uiImage = UIImage(url: urlImage) {
+                                            let flash = Flashcard()
+                                            flash.title = d.fields.title
+                                            flash.descriptionFlashcard = d.fields.description
+                                            flash.image = NSData(data: uiImage.pngData()!)
+                                            flash.createdAt = d.sys.createdAt
+                                            flash.updatedAt = d.sys.updatedAt
+                                            
+                                            DispatchQueue.main.async {
+                                                saveFlash(flash, section: secion, flashcards: flashcards)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        } catch {
+            print("Error with decode Data: \(error)")
+        }
     }
     
-    //MARK: - Fetch Exercise Model
-    func fetchExercise(exerciseID: [String]) {
-        if let url = URL(string: exerciseURL) { //entries URL
+    func fetchData(id: [String], section: Section, type: String) {
+        var url = ""
+        switch type {
+        case "Exercise":
+            url = exerciseURL
+            
+        case "Test":
+            url = testURL
+            
+        case "Flashcard":
+            url = flashcardURL
+            
+        default:
+            break
+        }
+        if let url = URL(string: url) { //entries URL
             let session = URLSession(configuration: .default) //url session create
             
             //give session a task
@@ -99,7 +233,7 @@ struct ContentfulManager {
                 }
                 
                 if let safeData = data {
-                    self.parseExercise(exerciseData: safeData, exerciseID)
+                    parseData(data: safeData, id: id, secion: section, type: type)
                 }
             }
             
@@ -107,85 +241,8 @@ struct ContentfulManager {
         }
     }
     
-    func parseExercise(exerciseData: Data, _ exerciseID: [String]) {
-        let decoder = JSONDecoder()
-        var exerciseTab: [ExerciseModel] = []
-        do {
-            let decodedData = try decoder.decode(ExerciseData.self, from: exerciseData)
-            for e in exerciseID {
-                for d in decodedData.items{
-                    if d.sys.id == e {
-                        for i in decodedData.includes.Asset {
-                            if d.fields.image.sys.id == i.sys.id {
-                                if let urlImage = URL(string: "https:\(i.fields.file.url)") {
-                                    if let uiImage = UIImage(url: urlImage) {
-                                        let exercise = ExerciseModel(title: d.fields.title, description: d.fields.description, answer: d.fields.answer, image: uiImage)
-                                        exerciseTab.append(exercise)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch {
-            print("Error with decode exercise: \(error)")
-        }
-        self.delegate?.didUpdateExercise(exerciseTab)
-    }
-    
-    
-    
-    //MARK: - Fetch Flashcard Model
-    func fetchFlashcard(flashcardID: [String]) {
-        if let url = URL(string: flashcardURL) { //entries URL
-            let session = URLSession(configuration: .default) //url session create
-            
-            //give session a task
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    self.parseFlashcard(flashcardData: safeData, flashcardID)
-                }
-            }
-            
-            task.resume() //start task
-        }
-    }
-    
-    func parseFlashcard(flashcardData: Data, _ flashcardID: [String]) {
-        let decoder = JSONDecoder()
-        var flashcardTab: [FlashcardModel] = []
-        do {
-            let decodedData = try decoder.decode(FlashcardData.self, from: flashcardData)
-            for f in flashcardID {
-                for d in decodedData.items{
-                    if d.sys.id == f {
-                        for i in decodedData.includes.Asset {
-                            if d.fields.image.sys.id == i.sys.id {
-                                if let urlImage = URL(string: "https:\(i.fields.file.url)") {
-                                    if let uiImage = UIImage(url: urlImage) {
-                                        let flashcard = FlashcardModel(title: d.fields.title, description: d.fields.description, image: uiImage)
-                                        flashcardTab.append(flashcard)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch {
-            print("Error with decode exercise: \(error)")
-        }
-        self.delegate?.didUpdateFlashcard(flashcardTab)
-    }
-    
-    //MARK: - Fetch Introduction Model
-    func fetchIntroduction(introductionID: String) {
+    //MARK: Fetch Introduction
+    func fetchIntro(introID: String, section: Section) {
         if let url = URL(string: introductionURL) { //entries URL
             let session = URLSession(configuration: .default) //url session create
             
@@ -197,7 +254,7 @@ struct ContentfulManager {
                 }
                 
                 if let safeData = data {
-                    self.parseIntroduction(introductionData: safeData, introductionID)
+                    parseIntro(data: safeData, id: introID, secion: section)
                 }
             }
             
@@ -205,61 +262,230 @@ struct ContentfulManager {
         }
     }
     
-    func parseIntroduction(introductionData: Data, _ introductionID: String) {
+    func parseIntro(data: Data, id: String, secion: Section) {
+        var introductions: Results<Introduction>?
+        DispatchQueue.main.async {
+            if let realM = realm {
+                introductions = realM.objects(Introduction.self)
+            }
+        }
         let decoder = JSONDecoder()
         do {
-            let decodedData = try decoder.decode(IntroductionData.self, from: introductionData)
+            let decodedData = try decoder.decode(IntroductionData.self, from: data)
             for d in decodedData.items {
-                if d.sys.id == introductionID {
-                    let introduction = IntroductionModel(title: d.fields.title, description: d.fields.description)
-                    self.delegate?.didUpdateIntroducton(introduction)
-                }
-            }
-            
-        } catch {
-            print("Error with decode exercise: \(error)")
-        }
-    }
-    
-    //MARK: - Fetch Test Model
-    func fetchTest(testID: [String]) {
-        if let url = URL(string: testURL) { //entries URL
-            let session = URLSession(configuration: .default) //url session create
-            
-            //give session a task
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    self.parseTest(testData: safeData, testID)
-                }
-            }
-            
-            task.resume() //start task
-        }
-    }
-    
-    func parseTest(testData: Data, _ testID: [String]) {
-        let decoder = JSONDecoder()
-        var testTab: [TestModel] = []
-        do {
-            let decodedData = try decoder.decode(TestData.self, from: testData)
-            for t in testID {
-                for d in decodedData.items {
-                    if d.sys.id == t {
-                        let test = TestModel(title: d.fields.title, description: d.fields.description, answerA: d.fields.answerA, answerB: d.fields.answerB, answerC: d.fields.answerC, answerD: d.fields.answerD, answerCorrect: d.fields.answerCorrect)
-                        testTab.append(test)
+                if d.sys.id == id {
+                    let newIntro = Introduction()
+                    newIntro.title = d.fields.title
+                    newIntro.descriptionIntroduction = d.fields.description
+                    newIntro.createdAt = d.sys.createdAt
+                    newIntro.updatedAt = d.sys.updatedAt
+                    
+                    
+                    DispatchQueue.main.async {
+                        saveIntro(newIntro, section: secion, introductions: introductions)
                     }
                 }
             }
             
         } catch {
-            print("Error with decode exercise: \(error)")
+            print("Error with decode Intro: \(error)")
         }
-        self.delegate?.didUpdateTest(testTab)
+    }
+    
+    //MARK: - Data Manipulation Method
+    func saveTest(_ test: Test, section: Section, tests: Results<Test>?) {
+        var exist = false
+        if let testList = tests {
+            for t in testList {
+                if t.createdAt == test.createdAt {
+                    exist = true
+                    if t.updatedAt != test.updatedAt {
+                        do {
+                            if let realM = realm {
+                                try realM.write {
+                                    t.title = test.title
+                                    t.descriptionTest = test.descriptionTest
+                                    t.answerA = test.answerA
+                                    t.answerB = test.answerB
+                                    t.answerC = test.answerC
+                                    t.answerD = test.answerD
+                                    t.answerCorrect = test.answerCorrect
+                                    t.updatedAt = test.updatedAt
+                                }
+                            }
+                        } catch {
+                            print("Error with update Test to Realm: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        if exist == false {
+            do {
+                if let realM = self.realm {
+                    try realM.write {
+                        section.tests.append(test)
+                        delegate?.update()
+                    }
+                }
+            } catch {
+                print("Error with saving Test, \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func saveFlash(_ flash: Flashcard, section: Section, flashcards: Results<Flashcard>?) {
+        var exist = false
+        if let flashList = flashcards {
+            for f in flashList {
+                if f.createdAt == flash.createdAt {
+                    exist = true
+                    if f.updatedAt != flash.updatedAt {
+                        do {
+                            if let realM = realm {
+                                try realM.write {
+                                    f.title = flash.title
+                                    f.descriptionFlashcard = flash.descriptionFlashcard
+                                    f.image = flash.image
+                                    f.updatedAt = flash.updatedAt
+                                }
+                            }
+                        } catch {
+                            print("Error with update Flashcard to Realm: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        if exist == false {
+            do {
+                if let realM = self.realm {
+                    try realM.write {
+                        section.flashcards.append(flash)
+                        delegate?.update()
+                    }
+                }
+            } catch {
+                print("Error with saving flshcard, \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func saveExer(_ exer: Exercise, section: Section, exercises: Results<Exercise>?) {
+        var exist = false
+        if let exerList = exercises {
+            for e in exerList {
+                if e.createdAt == exer.createdAt {
+                    exist = true
+                    if e.updatedAt != exer.updatedAt {
+                        do {
+                            if let realM = realm {
+                                try realM.write {
+                                    e.title = exer.title
+                                    e.descriptionExercise = exer.descriptionExercise
+                                    e.answer = exer.answer
+                                    e.updatedAt = exer.updatedAt
+                                    e.image = exer.image
+                                }
+                            }
+                        } catch {
+                            print("Error with update Exer to Realm: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        if exist == false {
+            do {
+                if let realM = self.realm {
+                    try realM.write {
+                        section.exercises.append(exer)
+                        delegate?.update()
+                    }
+                }
+            } catch {
+                print("Error with saving Exercise, \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func saveIntro(_ intro: Introduction, section: Section, introductions: Results<Introduction>?) {
+        var exist = false
+        if let introList = introductions {
+            for i in introList {
+                if i.createdAt == intro.createdAt {
+                    exist = true
+                    if i.updatedAt != intro.updatedAt {
+                        do {
+                            if let realM = realm {
+                                try realM.write {
+                                    i.title = intro.title
+                                    i.descriptionIntroduction = intro.descriptionIntroduction
+                                    i.updatedAt = intro.updatedAt
+                                }
+                            }
+                        } catch {
+                            print("Error with update Introduction to Realm: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        if exist == false {
+            do {
+                if let realM = self.realm {
+                    try realM.write {
+                        section.introductions.append(intro)
+                        delegate?.update()
+                    }
+                }
+            } catch {
+                print("Error with saving introductions, \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func saveSection(_ newSection: Section, sections: Results<Section>?) {
+        var exist = false
+        if let secionList = sections {
+            for s in secionList {
+                if s.createdAt == newSection.createdAt{
+                    exist = true
+                    if s.updatedAt != newSection.updatedAt {
+                        do {
+                            if let realM = realm {
+                                try realM.write {
+                                    s.title = newSection.title
+                                    s.updatedAt = newSection.updatedAt
+                                    s.exercises = newSection.exercises
+                                    s.flashcards = newSection.flashcards
+                                    s.introductions = newSection.introductions
+                                    s.tests = newSection.tests
+                                }
+                            }
+                        } catch {
+                            print("Error with updating Section to Realm: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        if exist == false {
+            do {
+                if let realM = realm {
+                    try realM.write {
+                        realM.add(newSection)
+                        delegate?.update()
+                    }
+                }
+            } catch {
+                print("Error with save Section to Realm: \(error)")
+            }
+        }
     }
 }
 

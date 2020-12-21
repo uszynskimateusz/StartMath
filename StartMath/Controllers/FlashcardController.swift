@@ -6,40 +6,43 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FlashcardController: UIViewController {
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var flashcardTableView: UITableView!
     
-    var flashcardTab: [FlashcardModel] = []
+    var flashcards: Results<Flashcard>?
+    var label: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         flashcardTableView.dataSource = self
         
         flashcardTableView.register(UINib(nibName: "FlashcardCell", bundle: nil), forCellReuseIdentifier: "flashcardCell")
+        
+        if let s = label {
+            sectionLabel.text = s
+        }
     }
 }
 
 extension FlashcardController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        flashcardTab.count
+        flashcards?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardCell", for: indexPath) as! FlashcardCell
-        
-        cell.titleLabel.text = flashcardTab[indexPath.row].title
-        cell.descriptionLabel.text = flashcardTab[indexPath.row].description
-        cell.bottomImageView.image = flashcardTab[indexPath.row].image
+        if let f = flashcards?[indexPath.row] {
+            cell.titleLabel.text = f.title
+            cell.descriptionLabel.text = f.descriptionFlashcard
+            cell.bottomImageView.image = UIImage(data: f.image as Data)
+        }
         
         cell.selectionStyle = .none
         
         return cell
     }
-    
-    
 }
