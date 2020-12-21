@@ -33,6 +33,7 @@
 		69B83AC22588AD61000BF912 /* ExerciseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B83AC02588AD61000BF912 /* ExerciseCell.swift */; };
 		69B83AC32588AD61000BF912 /* ExerciseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B83AC12588AD61000BF912 /* ExerciseCell.xib */; };
 		69D9B02625875DD1007DB045 /* SectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9B02525875DD1007DB045 /* SectionController.swift */; };
+		69EA8B7225909C800016BE93 /* ARModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EA8B7125909C800016BE93 /* ARModelController.swift */; };
 		69F2277625879F7500C970FC /* FlashcardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2277525879F7500C970FC /* FlashcardController.swift */; };
 		DF1CF92E59B71A84BA7FAC8F /* Pods_StartMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 185DC99358F14B92BF966E44 /* Pods_StartMath.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		69B83AC02588AD61000BF912 /* ExerciseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCell.swift; sourceTree = "<group>"; };
 		69B83AC12588AD61000BF912 /* ExerciseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseCell.xib; sourceTree = "<group>"; };
 		69D9B02525875DD1007DB045 /* SectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionController.swift; sourceTree = "<group>"; };
+		69EA8B7125909C800016BE93 /* ARModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModelController.swift; sourceTree = "<group>"; };
 		69F2277525879F7500C970FC /* FlashcardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 				6939D0A625879C1F000B97DE /* SingleExerciseController.swift */,
 				69F2277525879F7500C970FC /* FlashcardController.swift */,
 				6955ACDB2587A8AF00C21F7F /* TestController.swift */,
+				69EA8B7125909C800016BE93 /* ARModelController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69EA8B7225909C800016BE93 /* ARModelController.swift in Sources */,
 				69B83ABD2588A73D000BF912 /* FlashcardCell.swift in Sources */,
 				69D9B02625875DD1007DB045 /* SectionController.swift in Sources */,
 				6939D0A725879C1F000B97DE /* SingleExerciseController.swift in Sources */,
