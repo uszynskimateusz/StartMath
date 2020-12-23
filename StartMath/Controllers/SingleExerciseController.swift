@@ -12,10 +12,10 @@ class SingleExerciseController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageImageView: UIImageView!
+    @IBOutlet weak var modelArButton: UIButton!
     
     let realm = try? Realm()
     var exercise: Exercise?
-    var type: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,7 @@ class SingleExerciseController: UIViewController {
             titleLabel.text = e.title
             descriptionLabel.text = e.descriptionExercise
             imageImageView.image = UIImage(data: e.image as Data)
+            modelArButton.isEnabled = e.trybar == "brak" ? false : true
         }
     }
     @IBAction func showAnswearPressed(_ sender: UIButton) {
@@ -55,7 +56,34 @@ class SingleExerciseController: UIViewController {
         let destinationVC = segue.destination as! ARModelController
         if let answerInt = Int(exercise!.answer) {
             destinationVC.maxItem = answerInt
-            destinationVC.type = type
+        }
+        
+        if let tryb = exercise?.trybar {
+            switch tryb {
+            case "pokazywanie":
+                destinationVC.type = .showing
+                
+            case "mierzenie":
+                destinationVC.type = .measurement
+            default:
+                break
+            }
+        }
+        
+        if let model = exercise?.modelar {
+            switch model {
+            case "jabłko":
+                destinationVC.itemSCNScene = "art.scnassets/apple.scn"
+                destinationVC.itemChildNode = "Apple"
+                
+            case "banan":
+                destinationVC.itemSCNScene = "art.scnassets/banana.scn"
+                destinationVC.itemChildNode = "banana.obj"
+                
+            default:
+                destinationVC.itemSCNScene = "art.scnassets/among_us.scn"
+                destinationVC.itemChildNode = "among_us_001_wire_177088027"
+            }
         }
     }
 }

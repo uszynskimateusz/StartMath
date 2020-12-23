@@ -711,6 +711,7 @@
                     <connections>
                         <outlet property="descriptionLabel" destination="FgI-uR-LhF" id="N9R-22-kKs"/>
                         <outlet property="imageImageView" destination="zE2-uw-wwN" id="dPa-WM-qxd"/>
+                        <outlet property="modelArButton" destination="v5B-GH-QTg" id="B0H-ID-SA4"/>
                         <outlet property="titleLabel" destination="5jw-4r-1fd" id="Puo-9v-UrL"/>
                         <segue destination="Ji6-Db-gkW" kind="show" identifier="goToAR" id="cxq-kZ-7xe"/>
                     </connections>

@@ -12,13 +12,6 @@ protocol ContentfulManagerDelegate {
     func update()
 }
 
-enum K: String {
-    case exercise = "Exercise"
-    case flashcard = "Flashcard"
-    case test = "Test"
-    case introduction = "Introduction"
-}
-
 struct ContentfulManager {
     let realm = try? Realm()
     
@@ -167,6 +160,8 @@ struct ContentfulManager {
                                             newExer.descriptionExercise = d.fields.description
                                             newExer.answer = d.fields.answer
                                             newExer.image = NSData(data: uiImage.pngData()!)
+                                            newExer.modelar = d.fields.modelAr
+                                            newExer.trybar = d.fields.trybAr
                                             newExer.createdAt = d.sys.createdAt
                                             newExer.updatedAt = d.sys.updatedAt
                                             
@@ -215,21 +210,18 @@ struct ContentfulManager {
     }
     
     func fetchData(id: [String], section: Section, type: K) {
-        var url = ""
+        var urlString = ""
         switch type {
         case .exercise:
-            url = exerciseURL
-            
+            urlString = exerciseURL
         case .test:
-            url = testURL
-            
+            urlString = testURL
         case .flashcard:
-            url = flashcardURL
-            
+            urlString = flashcardURL
         default:
             break
         }
-        if let url = URL(string: url) { //entries URL
+        if let url = URL(string: urlString) { //entries URL
             let session = URLSession(configuration: .default) //url session create
             
             //give session a task
@@ -395,6 +387,8 @@ struct ContentfulManager {
                                     e.answer = exer.answer
                                     e.updatedAt = exer.updatedAt
                                     e.image = exer.image
+                                    e.trybar = exer.trybar
+                                    e.modelar = exer.modelar
                                 }
                             }
                         } catch {

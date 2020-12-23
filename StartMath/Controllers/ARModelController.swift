@@ -9,6 +9,11 @@ import UIKit
 import SceneKit
 import ARKit
 
+enum TypeAR: String {
+    case showing = "pokazywanie"
+    case measurement = "mierzenie"
+}
+
 class ARModelController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
     
@@ -16,10 +21,12 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     var maxItem: Int = 0
     var counter = 0
     
-    var type: String = ""
-    
     var dotNodes = [SCNNode]()
     var textNode = SCNNode()
+    
+    var type: TypeAR = .showing
+    var itemSCNScene = ""
+    var itemChildNode = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,31 +71,29 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
             
             if let hitResult = results.first {
                 switch type {
-                case "Liczby":
+                case .showing:
                     if counter < maxItem {
                         addItem(at: hitResult)
                         counter += 1
+                        navigationController?.navigationBar.topItem?.title = "Umieczono przedmioty: \(counter)"
                     }
-                case "Długości":
+                case .measurement:
                     addDot(at: hitResult)
-                default:
-                    break
                 }
-                
             }
         }
     }
     
     //MARK: Liczby
     func addItem(at location: ARRaycastResult) {
-        let itemScene = SCNScene(named: "art.scnassets/Orange.scn")
+        let itemScene = SCNScene(named: itemSCNScene)
         
-        if let itemNode = itemScene?.rootNode.childNode(withName: "Orange", recursively: true) {
+        if let itemNode = itemScene?.rootNode.childNode(withName: itemChildNode, recursively: true) {
             itemNode.position = SCNVector3(
                 location.worldTransform.columns.3.x,
                 location.worldTransform.columns.3.y,
                 location.worldTransform.columns.3.z)
-            
+
             itemArray.append(itemNode)
             sceneView.scene.rootNode.addChildNode(itemNode)
         }
@@ -103,7 +108,10 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
         dotGeometry.materials = [material]
         
         let dotNode = SCNNode(geometry: dotGeometry)
-        dotNode.position = SCNVector3(hitResult.worldTransform.columns.3.x, hitResult.worldTransform.columns.3.y, hitResult.worldTransform.columns.3.z)
+        dotNode.position = SCNVector3(
+            hitResult.worldTransform.columns.3.x,
+            hitResult.worldTransform.columns.3.y,
+            hitResult.worldTransform.columns.3.z)
         
         sceneView.scene.rootNode.addChildNode(dotNode)
         dotNodes.append(dotNode)
@@ -135,7 +143,10 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
         textGeometry.firstMaterial?.diffuse.contents = UIColor.red
         
         textNode = SCNNode(geometry: textGeometry)
-        textNode.position = SCNVector3(atPosition.x - 0.05, atPosition.y + 0.05, atPosition.y)
+        textNode.position = SCNVector3(
+            atPosition.x - 0.05,
+            atPosition.y + 0.05,
+            atPosition.y)
         textNode.scale = SCNVector3(0.01, 0.01, 0.01)
         
         sceneView.scene.rootNode.addChildNode(textNode)

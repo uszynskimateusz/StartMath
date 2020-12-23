@@ -13,6 +13,8 @@ class Exercise: Object {
     @objc dynamic var descriptionExercise: String = ""
     @objc dynamic var answer: String = ""
     @objc dynamic var image: NSData = NSData()
+    @objc dynamic var modelar: String = ""
+    @objc dynamic var trybar: String = ""
     @objc dynamic var done: Bool = false
     
     @objc dynamic var updatedAt: String = ""

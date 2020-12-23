@@ -34,7 +34,7 @@ class ExerciseListController: UIViewController {
     }
     
     func loadExercises() {
-        exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
+        exercises = selectedSection?.exercises.sorted(byKeyPath: K.title.rawValue, ascending: true)
     }
     
     override func viewDidLoad() {
@@ -44,7 +44,7 @@ class ExerciseListController: UIViewController {
         exercisesTableView.delegate = self
         
         
-        exercisesTableView.register(UINib(nibName: "ExerciseCell", bundle: nil), forCellReuseIdentifier: "exercisesCell")
+        exercisesTableView.register(UINib(nibName: K.exerciseNib.rawValue, bundle: nil), forCellReuseIdentifier: K.exerciseIdentifier.rawValue)
         
         calcExercise()
     }
@@ -61,7 +61,7 @@ extension ExerciseListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath) as! ExerciseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.exerciseIdentifier.rawValue, for: indexPath) as! ExerciseCell
         if let e = exercises?[indexPath.row] {
             cell.titleLabel.text = e.title
             cell.leftImageView.isHidden = e.done ? true : false
@@ -77,7 +77,7 @@ extension ExerciseListController: UITableViewDataSource {
 
 extension ExerciseListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToSingleExercise", sender: self)
+        performSegue(withIdentifier: K.singleExerSegue.rawValue, sender: self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -85,10 +85,6 @@ extension ExerciseListController: UITableViewDelegate {
 
         if let indexPath = exercisesTableView.indexPathForSelectedRow {
             destinationVC.exercise = exercises?[indexPath.row]
-            
-            if let sectionString = selectedSection?.title {
-                destinationVC.type = sectionString
-            }
         }
     }
 }

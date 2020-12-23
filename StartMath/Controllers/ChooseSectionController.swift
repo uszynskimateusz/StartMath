@@ -19,10 +19,14 @@ class ChooseSectionController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         contentfulManager.delegate = self
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
+        
+        sectionTableView.register(UINib(nibName: K.sectionNib.rawValue, bundle: nil), forCellReuseIdentifier: K.sectionIdentifier.rawValue)
         
         contentfulManager.fetchAll()
         
@@ -47,10 +51,12 @@ extension ChooseSectionController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.sectionIdentifier.rawValue, for: indexPath) as! SectionCell
         
-        cell.textLabel?.text = sections?[indexPath.row].title ?? "Brak komórek"
-        cell.selectionStyle = .none
+        if let s = sections?[indexPath.row] {
+            cell.sectionLabel.text = s.title
+            cell.selectionStyle = .none
+        }
         
         return cell
     }
@@ -64,7 +70,7 @@ extension ChooseSectionController: ContentfulManagerDelegate {
 
 extension ChooseSectionController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToSection", sender: self)
+        performSegue(withIdentifier: K.sectionSegue.rawValue, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

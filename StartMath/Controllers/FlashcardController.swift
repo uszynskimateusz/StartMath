@@ -20,7 +20,7 @@ class FlashcardController: UIViewController {
         
         flashcardTableView.dataSource = self
         
-        flashcardTableView.register(UINib(nibName: "FlashcardCell", bundle: nil), forCellReuseIdentifier: "flashcardCell")
+        flashcardTableView.register(UINib(nibName: K.flashcardNib.rawValue, bundle: nil), forCellReuseIdentifier: K.flashcardIdentifier.rawValue)
         
         if let s = label {
             sectionLabel.text = s
@@ -34,7 +34,7 @@ extension FlashcardController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardCell", for: indexPath) as! FlashcardCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.flashcardIdentifier.rawValue, for: indexPath) as! FlashcardCell
         if let f = flashcards?[indexPath.row] {
             cell.titleLabel.text = f.title
             cell.descriptionLabel.text = f.descriptionFlashcard

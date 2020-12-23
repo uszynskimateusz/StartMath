@@ -24,6 +24,8 @@ struct FieldsExercise: Decodable {
     let title: String
     let description: String
     let answer: String
+    let modelAr: String
+    let trybAr: String
     
     let image: ImageImage
 }

@@ -27,10 +27,10 @@ class SectionController: UIViewController {
         }
     }
     func loadData() {
-        exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
-        flashcards = selectedSection?.flashcards.sorted(byKeyPath: "title", ascending: true)
-        introductions = selectedSection?.introductions.sorted(byKeyPath: "title", ascending: true)
-        tests = selectedSection?.tests.sorted(byKeyPath: "title", ascending: true)
+        exercises = selectedSection?.exercises.sorted(byKeyPath: K.title.rawValue, ascending: true)
+        flashcards = selectedSection?.flashcards.sorted(byKeyPath: K.title.rawValue, ascending: true)
+        introductions = selectedSection?.introductions.sorted(byKeyPath: K.title.rawValue, ascending: true)
+        tests = selectedSection?.tests.sorted(byKeyPath: K.title.rawValue, ascending: true)
     }
     
     override func viewDidLoad() {
@@ -39,45 +39,44 @@ class SectionController: UIViewController {
         sectionLabel.text = selectedSection?.title
     }
     @IBAction func introductionButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToIntroduction", sender: sender)
+        performSegue(withIdentifier: K.introSegue.rawValue, sender: sender)
     }
     
     @IBAction func exercisePressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToExercisesList", sender: sender)
+        performSegue(withIdentifier: K.exerListSegue.rawValue, sender: sender)
     }
     
     @IBAction func flashcardPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToFlashcards", sender: sender)
+        performSegue(withIdentifier: K.flashSegue.rawValue, sender: sender)
     }
     
     @IBAction func testPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToTest", sender: sender)
+        performSegue(withIdentifier: K.testSegue.rawValue, sender: sender)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case "goToIntroduction":
+            case K.introSegue.rawValue:
                 let destinationVC = segue.destination as! IntroductionController
                 destinationVC.introduction = introductions?.first
             
-            case "goToExercisesList":
+            case K.exerListSegue.rawValue:
                 let destinationVC = segue.destination as! ExerciseListController
                 destinationVC.exercises = exercises
                 destinationVC.selectedSection = selectedSection
                 
-            case "goToFlashcards":
+            case K.flashSegue.rawValue:
                 let destinationVC = segue.destination as! FlashcardController
                 destinationVC.flashcards = flashcards
                 destinationVC.label = selectedSection?.title
                 
-            case "goToTest":
+            case K.testSegue.rawValue:
                 let destinationVC = segue.destination as! TestController
                 destinationVC.tests = tests
                 
             default: break
-                
             }
         }
     }
