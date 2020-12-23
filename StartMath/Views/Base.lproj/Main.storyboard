@@ -538,14 +538,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Vaa-aP-1KO">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="129"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mzQ-0p-bXu">
-                                                <rect key="frame" x="0.0" y="25" width="80" height="79"/>
-                                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fuM-tq-YAE" customClass="CircleProgressBar">
+                                                <rect key="frame" x="0.0" y="24.5" width="80" height="80"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="80" id="T82-Xv-SiT"/>
-                                                    <constraint firstAttribute="height" constant="80" id="xAN-8f-6mz"/>
+                                                    <constraint firstAttribute="height" constant="80" id="3XW-8y-U9u"/>
+                                                    <constraint firstAttribute="width" constant="80" id="ShV-Yk-zts"/>
                                                 </constraints>
-                                            </imageView>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/32 Done" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGD-Vi-OJz">
                                                 <rect key="frame" x="80" y="47" width="334" height="35"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
@@ -592,6 +592,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OBr-yR-g0r"/>
                     <connections>
+                        <outlet property="circleProgressBar" destination="fuM-tq-YAE" id="PBw-wK-9lj"/>
                         <outlet property="exerciseLabel" destination="tGD-Vi-OJz" id="LYk-4s-iIm"/>
                         <outlet property="exercisesTableView" destination="rPK-09-Gg9" id="Wl0-29-ukl"/>
                         <segue destination="dH3-6M-hNV" kind="show" identifier="goToSingleExercise" id="w1r-HR-LhI"/>
@@ -752,7 +753,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

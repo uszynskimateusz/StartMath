@@ -7,11 +7,14 @@
 
 import UIKit
 import RealmSwift
+import CircleProgressBar
 
 class ExerciseListController: UIViewController {
     
     @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var exercisesTableView: UITableView!
+    @IBOutlet weak var circleProgressBar: CircleProgressBar!
+    
     
     var exercises: Results<Exercise>?
     var selectedSection: Section? {
@@ -30,7 +33,11 @@ class ExerciseListController: UIViewController {
             }
             
             exerciseLabel.text = "\(counter) / \(exerList.count) done"
+            
+            let progressFLoat = Float(counter) / Float(exerList.count)
+            circleProgressBar.setProgress(CGFloat(progressFLoat), animated: true)
         }
+        
     }
     
     func loadExercises() {
@@ -47,6 +54,11 @@ class ExerciseListController: UIViewController {
         exercisesTableView.register(UINib(nibName: K.exerciseNib.rawValue, bundle: nil), forCellReuseIdentifier: K.exerciseIdentifier.rawValue)
         
         calcExercise()
+        
+        circleProgressBar.progressBarWidth = CGFloat(5)
+        circleProgressBar.hintTextColor = UIColor.systemGreen
+        circleProgressBar.progressBarProgressColor = UIColor.systemGreen
+        circleProgressBar.hintTextFont = UIFont.systemFont(ofSize: 20)
     }
     
     override func viewWillAppear(_ animated: Bool) {
