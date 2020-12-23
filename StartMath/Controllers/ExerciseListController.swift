@@ -39,7 +39,7 @@ class ExerciseListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         exercisesTableView.dataSource = self
         exercisesTableView.delegate = self
         
@@ -79,10 +79,10 @@ extension ExerciseListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: K.singleExerSegue.rawValue, sender: self)
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! SingleExerciseController
-
+        
         if let indexPath = exercisesTableView.indexPathForSelectedRow {
             destinationVC.exercise = exercises?[indexPath.row]
         }

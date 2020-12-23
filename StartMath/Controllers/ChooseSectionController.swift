@@ -20,13 +20,13 @@ class ChooseSectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-
         contentfulManager.delegate = self
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
         
         sectionTableView.register(UINib(nibName: K.sectionNib.rawValue, bundle: nil), forCellReuseIdentifier: K.sectionIdentifier.rawValue)
+        
+        sectionTableView.rowHeight = 75
         
         contentfulManager.fetchAll()
         
@@ -77,7 +77,7 @@ extension ChooseSectionController: UITableViewDelegate {
         let destinationVC = segue.destination as! SectionController
         
         if let indexPath = sectionTableView.indexPathForSelectedRow {
-           destinationVC.selectedSection = sections?[indexPath.row]
+            destinationVC.selectedSection = sections?[indexPath.row]
         }
     }
 }

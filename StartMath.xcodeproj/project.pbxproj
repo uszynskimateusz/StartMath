@@ -39,6 +39,7 @@
 		69F7AC0F25933B8900D9ACF5 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7AC0E25933B8900D9ACF5 /* K.swift */; };
 		69F7AC132593417200D9ACF5 /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7AC112593417200D9ACF5 /* SectionCell.swift */; };
 		69F7AC142593417200D9ACF5 /* SectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69F7AC122593417200D9ACF5 /* SectionCell.xib */; };
+		69F7AC172593478700D9ACF5 /* TestBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7AC162593478700D9ACF5 /* TestBrain.swift */; };
 		DF1CF92E59B71A84BA7FAC8F /* Pods_StartMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 185DC99358F14B92BF966E44 /* Pods_StartMath.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		69F7AC0E25933B8900D9ACF5 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		69F7AC112593417200D9ACF5 /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
 		69F7AC122593417200D9ACF5 /* SectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionCell.xib; sourceTree = "<group>"; };
+		69F7AC162593478700D9ACF5 /* TestBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBrain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				690F712F258A2BF5006005B8 /* Introduction.swift */,
 				69659CFE25877838006D6FCC /* TestData.swift */,
 				690F7138258A2D35006005B8 /* Test.swift */,
+				69F7AC162593478700D9ACF5 /* TestBrain.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				6939D0A425879428000B97DE /* ExerciseListController.swift in Sources */,
 				690F7139258A2D35006005B8 /* Test.swift in Sources */,
 				6955ACDC2587A8AF00C21F7F /* TestController.swift in Sources */,
+				69F7AC172593478700D9ACF5 /* TestBrain.swift in Sources */,
 				69F7AC0F25933B8900D9ACF5 /* K.swift in Sources */,
 				69659D0525877D57006D6FCC /* IntroductionController.swift in Sources */,
 				69659CED25876265006D6FCC /* ExerciseData.swift in Sources */,

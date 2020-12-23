@@ -16,7 +16,7 @@ class IntroductionController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let i = introduction {
             titleLabel.text = i.title
             descriptionLabel.text = i.descriptionIntroduction

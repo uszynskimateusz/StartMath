@@ -18,60 +18,30 @@ class TestController: UIViewController {
     @IBOutlet weak var answearDButton: UIButton!
     
     var tests: Results<Test>?
-
+    
     var exerciseNumber = 0
     var score = 0
     
+    var testBrain = TestBrain()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        testBrain.delegate = self
+        testBrain.tests = tests
+        
         updateUI()
     }
     
-    func checkAnswer(_ userAnswer: String) -> UIColor {
-        if let t = tests {
-            if userAnswer == t[exerciseNumber].answerCorrect {
-                score += 1
-                return UIColor.green //good answer
-            } else {
-                return UIColor.red //bad answer
-            }
-        }
-        
-        return UIColor.clear
-    }
-    
-    func nextQuestion() {
-        if let t = tests {
-            if exerciseNumber < t.count - 1 {
-                exerciseNumber += 1
-            } else {
-                let alert = UIAlertController(title: "Score: ", message: "\(score) / \(t.count)", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-                    self.navigationController?.popViewController(animated: true)
-                }))
-                alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { (action) in
-                    self.score = 0
-                    self.exerciseNumber = 0
-                    self.updateUI()
-                }))
-                self.present(alert, animated: true)
-            }
-        }
-    }
-    
     @objc func updateUI() {
-        if let t = tests {
-            titleLabel.text = t[exerciseNumber].title
-            descriptionLabel.text = t[exerciseNumber].descriptionTest
-            answearAButton.setTitle(t[exerciseNumber].answerA, for: .normal)
-            answearBButton.setTitle(t[exerciseNumber].answerB, for: .normal)
-            answearCButton.setTitle(t[exerciseNumber].answerC, for: .normal)
-            answearDButton.setTitle(t[exerciseNumber].answerD, for: .normal)
-            
-            progressBar.progress = Float(exerciseNumber+1)/Float(t.count)
-        }
-
+        titleLabel.text = testBrain.getQuestionText()
+        descriptionLabel.text = testBrain.getDescriptionText()
+        answearAButton.setTitle(testBrain.getAnswerAText(), for: .normal)
+        answearBButton.setTitle(testBrain.getAnswerBText(), for: .normal)
+        answearCButton.setTitle(testBrain.getAnswerCText(), for: .normal)
+        answearDButton.setTitle(testBrain.getAnswerDText(), for: .normal)
+        
+        progressBar.progress = testBrain.getProgress()
+        
         answearAButton.backgroundColor = UIColor.clear
         answearBButton.backgroundColor = UIColor.clear
         answearCButton.backgroundColor = UIColor.clear
@@ -80,10 +50,32 @@ class TestController: UIViewController {
     
     @IBAction func answearPressed(_ sender: UIButton) {
         let userAnswer = sender.currentTitle
-        sender.backgroundColor = checkAnswer(userAnswer!)
+        sender.backgroundColor = testBrain.checkAnswer(userAnswer!)
         
-        nextQuestion()
+        testBrain.nextQuestion()
         
         Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
+    }
+}
+
+extension TestController: TestBrainDelegate {
+    func endTest() {
+        if let t = tests {
+            var accualScore = 0
+            DispatchQueue.main.async {
+                accualScore = self.testBrain.getScore()
+            }
+            let alert = UIAlertController(title: "Score: ", message: "\(accualScore) / \(t.count)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { (action) in
+                self.testBrain.setScore(0)
+                self.testBrain.setExerciseNumber(0)
+                self.updateUI()
+            }))
+            
+            self.present(alert, animated: true)
+        }
     }
 }

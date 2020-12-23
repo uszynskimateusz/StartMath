@@ -41,7 +41,7 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
+        
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         
@@ -53,7 +53,7 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
         
         sceneView.session.pause()
     }
-        
+    
     //MARK: - Refactoring Methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if dotNodes.count >= 2 {
@@ -93,7 +93,7 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
                 location.worldTransform.columns.3.x,
                 location.worldTransform.columns.3.y,
                 location.worldTransform.columns.3.z)
-
+            
             itemArray.append(itemNode)
             sceneView.scene.rootNode.addChildNode(itemNode)
         }

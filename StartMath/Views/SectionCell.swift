@@ -13,14 +13,12 @@ class SectionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        sectionBubble.layer.cornerRadius = sectionBubble.frame.size.height/5
+
+        sectionBubble.layer.cornerRadius = sectionBubble.frame.size.height/3
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }

@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class SectionController: UIViewController {
-
+    
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var introductionButton: UIButton!
     @IBOutlet weak var exerciseButton: UIButton!
@@ -26,6 +26,20 @@ class SectionController: UIViewController {
             loadData()
         }
     }
+    
+    func calculate() {
+        var counter = 0
+        
+        if let doneExer = exercises {
+            for d in doneExer {
+                if d.done == true {
+                    counter += 1
+                }
+            }
+            
+            testButton.isEnabled = counter == doneExer.count ? true : false
+        }
+    }
     func loadData() {
         exercises = selectedSection?.exercises.sorted(byKeyPath: K.title.rawValue, ascending: true)
         flashcards = selectedSection?.flashcards.sorted(byKeyPath: K.title.rawValue, ascending: true)
@@ -35,8 +49,12 @@ class SectionController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         sectionLabel.text = selectedSection?.title
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        calculate()
     }
     @IBAction func introductionButton(_ sender: UIButton) {
         performSegue(withIdentifier: K.introSegue.rawValue, sender: sender)
@@ -61,7 +79,7 @@ class SectionController: UIViewController {
             case K.introSegue.rawValue:
                 let destinationVC = segue.destination as! IntroductionController
                 destinationVC.introduction = introductions?.first
-            
+                
             case K.exerListSegue.rawValue:
                 let destinationVC = segue.destination as! ExerciseListController
                 destinationVC.exercises = exercises
