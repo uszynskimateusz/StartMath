@@ -29,6 +29,11 @@ class TestController: UIViewController {
         testBrain.delegate = self
         testBrain.tests = tests
         
+        answearAButton.layer.cornerRadius = answearAButton.frame.size.height/5
+        answearBButton.layer.cornerRadius = answearBButton.frame.size.height/5
+        answearCButton.layer.cornerRadius = answearCButton.frame.size.height/5
+        answearDButton.layer.cornerRadius = answearDButton.frame.size.height/5
+        
         updateUI()
     }
     
