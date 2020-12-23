@@ -253,15 +253,15 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hra-v3-qXs">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hra-v3-qXs">
                                         <rect key="frame" x="0.0" y="62.5" width="414" height="711.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="flashcardCell" id="T9r-3L-lxc">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="T9r-3L-lxc" id="lK3-vw-lW6">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -346,15 +346,14 @@
                                         <rect key="frame" x="0.0" y="323" width="414" height="162"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hro-aE-fGL">
-                                                <rect key="frame" x="10" y="79" width="394" height="4"/>
+                                                <rect key="frame" x="25" y="158" width="364" height="4"/>
                                             </progressView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="hro-aE-fGL" secondAttribute="trailing" constant="10" id="9cr-de-cTS"/>
-                                            <constraint firstItem="hro-aE-fGL" firstAttribute="centerX" secondItem="gUn-hH-JaI" secondAttribute="centerX" id="9ts-7j-rdA"/>
-                                            <constraint firstItem="hro-aE-fGL" firstAttribute="centerY" secondItem="gUn-hH-JaI" secondAttribute="centerY" id="bZO-yA-AMf"/>
-                                            <constraint firstItem="hro-aE-fGL" firstAttribute="leading" secondItem="gUn-hH-JaI" secondAttribute="leading" constant="10" id="lRe-vQ-gJP"/>
+                                            <constraint firstAttribute="bottom" secondItem="hro-aE-fGL" secondAttribute="bottom" id="5sg-XA-7GD"/>
+                                            <constraint firstItem="hro-aE-fGL" firstAttribute="leading" secondItem="gUn-hH-JaI" secondAttribute="leading" constant="25" id="7PF-8H-itr"/>
+                                            <constraint firstAttribute="trailing" secondItem="hro-aE-fGL" secondAttribute="trailing" constant="25" id="rLX-Qe-f2a"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="KFV-30-TVm">
