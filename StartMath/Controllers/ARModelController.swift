@@ -30,11 +30,20 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateNaviController()
+        
+        setSceneView()
+    }
+    
+    func updateNaviController() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
-        
+    }
+    
+    func setSceneView() {
         sceneView.delegate = self
         sceneView.autoenablesDefaultLighting = true
     }
@@ -117,36 +126,35 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
         dotNodes.append(dotNode)
         
         if dotNodes.count >= 2 {
-            calculate()
+            updateText()
         }
     }
     
-    func calculate() {
-        let start = dotNodes[0]
-        let end = dotNodes[1]
-        
+    func calculateDistance(from start: SCNNode, to end: SCNNode) -> Float {
         let x = end.position.x - start.position.x
         let y = end.position.y - start.position.y
         let z = end.position.z - start.position.z
-        
         let distance = abs(sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2)))
-        let textString = String(format:"%.2f m", distance)
         
-        updateText(text: textString, atPosition: end.position)
+        return distance
     }
     
-    func updateText(text: String, atPosition: SCNVector3) {
+    func updateText() {
+        let start = dotNodes[0]
+        let end = dotNodes[1]
         
-        textNode.removeFromParentNode()
+        let distance = calculateDistance(from: start, to: end)
+        let textString = String(format:"%.2f m", distance)
         
-        let textGeometry = SCNText(string: text, extrusionDepth: 1.0)
+        let textGeometry = SCNText(string: textString, extrusionDepth: 1.0)
         textGeometry.firstMaterial?.diffuse.contents = UIColor.red
         
+        textNode.removeFromParentNode()
         textNode = SCNNode(geometry: textGeometry)
         textNode.position = SCNVector3(
-            atPosition.x - 0.05,
-            atPosition.y + 0.05,
-            atPosition.y)
+            end.position.x - 0.05,
+            end.position.y + 0.05,
+            end.position.y)
         textNode.scale = SCNVector3(0.01, 0.01, 0.01)
         
         sceneView.scene.rootNode.addChildNode(textNode)

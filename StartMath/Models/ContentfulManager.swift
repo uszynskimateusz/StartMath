@@ -161,7 +161,7 @@ struct ContentfulManager {
                                             newExer.answer = d.fields.answer
                                             newExer.image = NSData(data: uiImage.pngData()!)
                                             newExer.modelar = d.fields.modelAr
-                                            newExer.trybar = d.fields.trybAr
+                                            newExer.arMode = d.fields.trybAr
                                             newExer.createdAt = d.sys.createdAt
                                             newExer.updatedAt = d.sys.updatedAt
                                             
@@ -387,7 +387,7 @@ struct ContentfulManager {
                                     e.answer = exer.answer
                                     e.updatedAt = exer.updatedAt
                                     e.image = exer.image
-                                    e.trybar = exer.trybar
+                                    e.arMode = exer.arMode
                                     e.modelar = exer.modelar
                                 }
                             }

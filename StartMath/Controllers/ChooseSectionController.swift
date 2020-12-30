@@ -21,16 +21,18 @@ class ChooseSectionController: UIViewController {
         super.viewDidLoad()
         
         contentfulManager.delegate = self
-        sectionTableView.dataSource = self
-        sectionTableView.delegate = self
-        
-        sectionTableView.register(UINib(nibName: K.sectionNib.rawValue, bundle: nil), forCellReuseIdentifier: K.sectionIdentifier.rawValue)
-        
-        sectionTableView.rowHeight = 75
-        
         contentfulManager.fetchAll()
         
+        setTableView()
+        
         loadSection()
+    }
+    
+    func setTableView() {
+        sectionTableView.dataSource = self
+        sectionTableView.delegate = self
+        sectionTableView.register(UINib(nibName: K.sectionNib.rawValue, bundle: nil), forCellReuseIdentifier: K.sectionIdentifier.rawValue)
+        sectionTableView.rowHeight = 75
     }
     
     func loadSection() {

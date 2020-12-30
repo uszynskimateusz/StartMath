@@ -29,4 +29,7 @@ enum K: String {
     case exerciseIdentifier = "exercisesCell"
     case flashcardIdentifier = "flashcardCell"
     case sectionIdentifier = "sectionCell"
+    
+    case apple = "jabłko"
+    case banana = "banan"
 }

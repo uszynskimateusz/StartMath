@@ -24,7 +24,7 @@ class SingleExerciseController: UIViewController {
             titleLabel.text = e.title
             descriptionLabel.text = e.descriptionExercise
             imageImageView.image = UIImage(data: e.image as Data)
-            modelArButton.isEnabled = e.trybar == "brak" ? false : true
+            modelArButton.isEnabled = e.arMode == "brak" ? false : true
         }
     }
     @IBAction func showAnswearPressed(_ sender: UIButton) {
@@ -58,12 +58,12 @@ class SingleExerciseController: UIViewController {
             destinationVC.maxItem = answerInt
         }
         
-        if let tryb = exercise?.trybar {
+        if let tryb = exercise?.arMode {
             switch tryb {
-            case "pokazywanie":
+            case TypeAR.showing.rawValue:
                 destinationVC.type = .showing
                 
-            case "mierzenie":
+            case TypeAR.measurement.rawValue:
                 destinationVC.type = .measurement
             default:
                 break
@@ -72,11 +72,11 @@ class SingleExerciseController: UIViewController {
         
         if let model = exercise?.modelar {
             switch model {
-            case "jabłko":
+            case K.apple.rawValue:
                 destinationVC.itemSCNScene = "art.scnassets/apple.scn"
                 destinationVC.itemChildNode = "Apple"
                 
-            case "banan":
+            case K.banana.rawValue:
                 destinationVC.itemSCNScene = "art.scnassets/banana.scn"
                 destinationVC.itemChildNode = "banana.obj"
                 
