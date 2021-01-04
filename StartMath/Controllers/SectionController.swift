@@ -46,7 +46,7 @@ class SectionController: UIViewController {
                 }
             }
             
-            testButton.isEnabled = counter == doneExer.count ? true : false
+            testButton.isHidden = counter == doneExer.count ? false : true
         }
     }
     func loadData() {
@@ -60,6 +60,25 @@ class SectionController: UIViewController {
         super.viewDidLoad()
         
         sectionLabel.text = selectedSection?.title
+        
+        UIUpdate()
+    }
+    
+    func UIUpdate() {
+        introductionButton.layer.cornerRadius = introductionButton.frame.size.height/2
+        exerciseButton.layer.cornerRadius = exerciseButton.frame.size.height/2
+        flashcardButton.layer.cornerRadius = flashcardButton.frame.size.height/2
+        testButton.layer.cornerRadius = testButton.frame.size.height/2
+        
+        introductionButton.backgroundColor = UIColor.systemGreen
+        exerciseButton.backgroundColor = UIColor.systemGreen
+        flashcardButton.backgroundColor = UIColor.systemGreen
+        testButton.backgroundColor = UIColor.systemGreen
+        
+        introductionButton.setTitleColor(UIColor.white, for: .normal)
+        exerciseButton.setTitleColor(UIColor.white, for: .normal)
+        flashcardButton.setTitleColor(UIColor.white, for: .normal)
+        testButton.setTitleColor(UIColor.white, for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {

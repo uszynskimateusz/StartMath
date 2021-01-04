@@ -78,10 +78,10 @@ extension ExerciseListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseNib.exerciseNibName.rawValue, for: indexPath) as! ExerciseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseNib.exerciseIdentifier.rawValue, for: indexPath) as! ExerciseCell
         if let e = exercises?[indexPath.row] {
             cell.titleLabel.text = e.title
-            cell.leftImageView.isHidden = e.done ? true : false
+            cell.leftImageView.image = e.done ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
         } else {
             cell.titleLabel.text = "Brak zadań"
         }

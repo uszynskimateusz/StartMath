@@ -143,7 +143,7 @@
                                         <rect key="frame" x="0.0" y="258" width="414" height="129"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4h-zh-pcS">
-                                                <rect key="frame" x="165" y="49.5" width="84" height="30"/>
+                                                <rect key="frame" x="100" y="40" width="214" height="49"/>
                                                 <state key="normal" title="Introduction"/>
                                                 <connections>
                                                     <action selector="introductionButton:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="gjM-97-7bg"/>
@@ -152,7 +152,11 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="J4h-zh-pcS" firstAttribute="top" secondItem="dhX-w2-A9G" secondAttribute="top" constant="40" id="9qI-YE-Poh"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="J4h-zh-pcS" secondAttribute="trailing" id="VBR-Ar-4um"/>
+                                            <constraint firstAttribute="bottom" secondItem="J4h-zh-pcS" secondAttribute="bottom" constant="40" id="aPK-0a-Snk"/>
                                             <constraint firstItem="J4h-zh-pcS" firstAttribute="centerX" secondItem="dhX-w2-A9G" secondAttribute="centerX" id="dXc-4V-7aL"/>
+                                            <constraint firstItem="J4h-zh-pcS" firstAttribute="leading" secondItem="dhX-w2-A9G" secondAttribute="leading" constant="100" id="las-3Q-FDa"/>
                                             <constraint firstItem="J4h-zh-pcS" firstAttribute="centerY" secondItem="dhX-w2-A9G" secondAttribute="centerY" id="rXq-sX-Zud"/>
                                         </constraints>
                                     </view>
@@ -160,7 +164,7 @@
                                         <rect key="frame" x="0.0" y="387" width="414" height="129"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NW8-lT-Aae">
-                                                <rect key="frame" x="174.5" y="49.5" width="65" height="30"/>
+                                                <rect key="frame" x="100" y="40" width="214" height="49"/>
                                                 <state key="normal" title="Exercises"/>
                                                 <connections>
                                                     <action selector="exercisePressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="aPj-t8-9lc"/>
@@ -170,14 +174,18 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="NW8-lT-Aae" firstAttribute="centerY" secondItem="807-bi-4K1" secondAttribute="centerY" id="7Sv-jQ-Gqv"/>
+                                            <constraint firstAttribute="bottom" secondItem="NW8-lT-Aae" secondAttribute="bottom" constant="40" id="FvJ-Xd-zRW"/>
+                                            <constraint firstItem="NW8-lT-Aae" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="807-bi-4K1" secondAttribute="leading" id="N2f-QP-2Y2"/>
                                             <constraint firstItem="NW8-lT-Aae" firstAttribute="centerX" secondItem="807-bi-4K1" secondAttribute="centerX" id="PBf-sE-6SD"/>
+                                            <constraint firstAttribute="trailing" secondItem="NW8-lT-Aae" secondAttribute="trailing" constant="100" id="ofE-FA-S9i"/>
+                                            <constraint firstItem="NW8-lT-Aae" firstAttribute="top" secondItem="807-bi-4K1" secondAttribute="top" constant="40" id="rI8-Ng-pUe"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRH-iV-qay">
                                         <rect key="frame" x="0.0" y="516" width="414" height="129"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDl-Hm-4X2">
-                                                <rect key="frame" x="169.5" y="49.5" width="75" height="30"/>
+                                                <rect key="frame" x="100" y="40" width="214" height="49"/>
                                                 <state key="normal" title="Flashcards"/>
                                                 <connections>
                                                     <action selector="flashcardPressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="Kca-n6-Pto"/>
@@ -186,15 +194,19 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="XDl-Hm-4X2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="LRH-iV-qay" secondAttribute="leading" id="0v2-03-HM9"/>
                                             <constraint firstItem="XDl-Hm-4X2" firstAttribute="centerY" secondItem="LRH-iV-qay" secondAttribute="centerY" id="4L1-tz-ods"/>
+                                            <constraint firstItem="XDl-Hm-4X2" firstAttribute="top" secondItem="LRH-iV-qay" secondAttribute="top" constant="40" id="AmN-5U-M6y"/>
+                                            <constraint firstAttribute="trailing" secondItem="XDl-Hm-4X2" secondAttribute="trailing" constant="100" id="LBH-G3-2sf"/>
                                             <constraint firstItem="XDl-Hm-4X2" firstAttribute="centerX" secondItem="LRH-iV-qay" secondAttribute="centerX" id="awR-wT-PMe"/>
+                                            <constraint firstAttribute="bottom" secondItem="XDl-Hm-4X2" secondAttribute="bottom" constant="40" id="kC9-rS-z0R"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3r-SD-EOm">
                                         <rect key="frame" x="0.0" y="645" width="414" height="129"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ElG-u4-U9J">
-                                                <rect key="frame" x="192" y="49.5" width="30" height="30"/>
+                                                <rect key="frame" x="100" y="40" width="214" height="49"/>
                                                 <state key="normal" title="Test"/>
                                                 <connections>
                                                     <action selector="testPressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="OSg-7o-FpO"/>
@@ -203,7 +215,11 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="ElG-u4-U9J" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="V3r-SD-EOm" secondAttribute="leading" id="4xZ-LE-JBL"/>
+                                            <constraint firstAttribute="bottom" secondItem="ElG-u4-U9J" secondAttribute="bottom" constant="40" id="OMy-uZ-tNP"/>
                                             <constraint firstItem="ElG-u4-U9J" firstAttribute="centerY" secondItem="V3r-SD-EOm" secondAttribute="centerY" id="Pdb-jB-gAj"/>
+                                            <constraint firstAttribute="trailing" secondItem="ElG-u4-U9J" secondAttribute="trailing" constant="100" id="TFD-nE-NRE"/>
+                                            <constraint firstItem="ElG-u4-U9J" firstAttribute="top" secondItem="V3r-SD-EOm" secondAttribute="top" constant="40" id="dJb-an-bAB"/>
                                             <constraint firstItem="ElG-u4-U9J" firstAttribute="centerX" secondItem="V3r-SD-EOm" secondAttribute="centerX" id="nBR-Cy-PMZ"/>
                                         </constraints>
                                     </view>
