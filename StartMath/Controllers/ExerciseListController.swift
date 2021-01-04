@@ -9,6 +9,11 @@ import UIKit
 import RealmSwift
 import CircleProgressBar
 
+enum ExerciseNib: String {
+    case exerciseNibName = "ExerciseCell"
+    case exerciseIdentifier = "exercisesCell"
+}
+
 class ExerciseListController: UIViewController {
     
     @IBOutlet weak var exerciseLabel: UILabel!
@@ -41,7 +46,7 @@ class ExerciseListController: UIViewController {
     }
     
     func loadExercises() {
-        exercises = selectedSection?.exercises.sorted(byKeyPath: K.title.rawValue, ascending: true)
+        exercises = selectedSection?.exercises.sorted(byKeyPath: Names.title.rawValue, ascending: true)
     }
     
     override func viewDidLoad() {
@@ -51,7 +56,7 @@ class ExerciseListController: UIViewController {
         exercisesTableView.delegate = self
         
         
-        exercisesTableView.register(UINib(nibName: K.exerciseNib.rawValue, bundle: nil), forCellReuseIdentifier: K.exerciseIdentifier.rawValue)
+        exercisesTableView.register(UINib(nibName: ExerciseNib.exerciseNibName.rawValue, bundle: nil), forCellReuseIdentifier: ExerciseNib.exerciseIdentifier.rawValue)
         
         calcExercise()
         
@@ -73,7 +78,7 @@ extension ExerciseListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.exerciseIdentifier.rawValue, for: indexPath) as! ExerciseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseNib.exerciseNibName.rawValue, for: indexPath) as! ExerciseCell
         if let e = exercises?[indexPath.row] {
             cell.titleLabel.text = e.title
             cell.leftImageView.isHidden = e.done ? true : false
@@ -89,7 +94,7 @@ extension ExerciseListController: UITableViewDataSource {
 
 extension ExerciseListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: K.singleExerSegue.rawValue, sender: self)
+        performSegue(withIdentifier: SegueName.singleExerSegue.rawValue, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

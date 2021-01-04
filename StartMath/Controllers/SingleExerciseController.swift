@@ -8,6 +8,12 @@
 import UIKit
 import RealmSwift
 
+enum ARModels: String {
+    case apple = "jabłko"
+    case banana = "banan"
+    case among_us = "among_us"
+}
+
 class SingleExerciseController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -58,12 +64,12 @@ class SingleExerciseController: UIViewController {
             destinationVC.maxItem = answerInt
         }
         
-        if let tryb = exercise?.arMode {
-            switch tryb {
-            case TypeAR.showing.rawValue:
+        if let mode = exercise?.arMode {
+            switch mode {
+            case ARMode.showing.rawValue:
                 destinationVC.type = .showing
                 
-            case TypeAR.measurement.rawValue:
+            case ARMode.measurement.rawValue:
                 destinationVC.type = .measurement
             default:
                 break
@@ -72,11 +78,11 @@ class SingleExerciseController: UIViewController {
         
         if let model = exercise?.modelar {
             switch model {
-            case K.apple.rawValue:
+            case ARModels.apple.rawValue:
                 destinationVC.itemSCNScene = "art.scnassets/apple.scn"
                 destinationVC.itemChildNode = "Apple"
                 
-            case K.banana.rawValue:
+            case ARModels.banana.rawValue:
                 destinationVC.itemSCNScene = "art.scnassets/banana.scn"
                 destinationVC.itemChildNode = "banana.obj"
                 

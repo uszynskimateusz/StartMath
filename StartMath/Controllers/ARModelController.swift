@@ -9,7 +9,7 @@ import UIKit
 import SceneKit
 import ARKit
 
-enum TypeAR: String {
+enum ARMode: String {
     case showing = "pokazywanie"
     case measurement = "mierzenie"
 }
@@ -24,7 +24,7 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     var dotNodes = [SCNNode]()
     var textNode = SCNNode()
     
-    var type: TypeAR = .showing
+    var type: ARMode = .showing
     var itemSCNScene = ""
     var itemChildNode = ""
     

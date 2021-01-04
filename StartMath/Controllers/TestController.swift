@@ -19,9 +19,6 @@ class TestController: UIViewController {
     
     var tests: Results<Test>?
     
-    var exerciseNumber = 0
-    var score = 0
-    
     var testBrain = TestBrain()
     
     override func viewDidLoad() {
@@ -66,21 +63,21 @@ class TestController: UIViewController {
 extension TestController: TestBrainDelegate {
     func endTest() {
         if let t = tests {
-            var accualScore = 0
             DispatchQueue.main.async {
-                accualScore = self.testBrain.getScore()
+                let alert = UIAlertController(title: "Score: ", message: "\(self.testBrain.getScore()) / \(t.count)", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.testBrain.setScore(0)
+                    self.testBrain.setExerciseNumber(0)
+                    self.updateUI()
+                }))
+                
+                self.present(alert, animated: true)
             }
-            let alert = UIAlertController(title: "Score: ", message: "\(accualScore) / \(t.count)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-                self.navigationController?.popViewController(animated: true)
-            }))
-            alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { (action) in
-                self.testBrain.setScore(0)
-                self.testBrain.setExerciseNumber(0)
-                self.updateUI()
-            }))
-            
-            self.present(alert, animated: true)
         }
     }
 }

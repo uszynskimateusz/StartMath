@@ -8,6 +8,14 @@
 import UIKit
 import RealmSwift
 
+enum Names: String, CaseIterable {
+    case exercise = "Exercise"
+    case flashcard = "Flashcard"
+    case test = "Test"
+    case introduction = "Introduction"
+    case title = "title"
+}
+
 protocol ContentfulManagerDelegate {
     func update()
 }
@@ -95,7 +103,7 @@ struct ContentfulManager {
         }
     }
     //MARK: - Fetch Data
-    func parseData(data: Data, id: [String], secion: Section, type: K) {
+    func parseData(data: Data, id: [String], secion: Section, type: Names) {
         var tests: Results<Test>?
         var exercises: Results<Exercise>?
         var flashcards: Results<Flashcard>?
@@ -209,7 +217,7 @@ struct ContentfulManager {
         }
     }
     
-    func fetchData(id: [String], section: Section, type: K) {
+    func fetchData(id: [String], section: Section, type: Names) {
         var urlString = ""
         switch type {
         case .exercise:

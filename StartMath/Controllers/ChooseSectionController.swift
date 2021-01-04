@@ -8,6 +8,11 @@
 import UIKit
 import RealmSwift
 
+enum SectionNib: String {
+    case sectionNibName = "SectionCell"
+    case sectionIdentifier = "sectionCell"
+}
+
 class ChooseSectionController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var sectionTableView: UITableView!
@@ -31,7 +36,7 @@ class ChooseSectionController: UIViewController {
     func setTableView() {
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
-        sectionTableView.register(UINib(nibName: K.sectionNib.rawValue, bundle: nil), forCellReuseIdentifier: K.sectionIdentifier.rawValue)
+        sectionTableView.register(UINib(nibName: SectionNib.sectionNibName.rawValue, bundle: nil), forCellReuseIdentifier: SectionNib.sectionIdentifier.rawValue)
         sectionTableView.rowHeight = 75
     }
     
@@ -53,7 +58,7 @@ extension ChooseSectionController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.sectionIdentifier.rawValue, for: indexPath) as! SectionCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SectionNib.sectionIdentifier.rawValue, for: indexPath) as! SectionCell
         
         if let s = sections?[indexPath.row] {
             cell.sectionLabel.text = s.title
@@ -72,7 +77,7 @@ extension ChooseSectionController: ContentfulManagerDelegate {
 
 extension ChooseSectionController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: K.sectionSegue.rawValue, sender: self)
+        performSegue(withIdentifier: SegueName.sectionSegue.rawValue, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
