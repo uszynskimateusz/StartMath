@@ -18,20 +18,25 @@ class TestController: UIViewController {
     @IBOutlet weak var answearDButton: UIButton!
     
     var tests: Results<Test>?
-    
     var testBrain = TestBrain()
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         testBrain.delegate = self
         testBrain.tests = tests
         
-        answearAButton.layer.cornerRadius = answearAButton.frame.size.height/5
-        answearBButton.layer.cornerRadius = answearBButton.frame.size.height/5
-        answearCButton.layer.cornerRadius = answearCButton.frame.size.height/5
-        answearDButton.layer.cornerRadius = answearDButton.frame.size.height/5
+        setUI()
         
         updateUI()
+    }
+    
+    //MARK: - Update UI
+    func setUI() {
+        answearAButton.layer.cornerRadius = 30
+        answearBButton.layer.cornerRadius = 30
+        answearCButton.layer.cornerRadius = 30
+        answearDButton.layer.cornerRadius = 30
     }
     
     @objc func updateUI() {
@@ -50,6 +55,7 @@ class TestController: UIViewController {
         answearDButton.backgroundColor = UIColor.clear
     }
     
+    //MARK: - Button Methods
     @IBAction func answearPressed(_ sender: UIButton) {
         let userAnswer = sender.currentTitle
         sender.backgroundColor = testBrain.checkAnswer(userAnswer!)
@@ -60,6 +66,7 @@ class TestController: UIViewController {
     }
 }
 
+//MARK: Test Brain Delegate Methods
 extension TestController: TestBrainDelegate {
     func endTest() {
         if let t = tests {

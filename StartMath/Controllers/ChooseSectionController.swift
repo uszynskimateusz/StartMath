@@ -22,6 +22,7 @@ class ChooseSectionController: UIViewController {
     
     var contentfulManager = ContentfulManager()
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +34,11 @@ class ChooseSectionController: UIViewController {
         loadSection()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        sectionTableView.reloadData()
+    }
+    
+    //MARK: - Table View Methods
     func setTableView() {
         sectionTableView.dataSource = self
         sectionTableView.delegate = self
@@ -40,18 +46,17 @@ class ChooseSectionController: UIViewController {
         sectionTableView.rowHeight = 75
     }
     
+    //MARK: - Data Methods
     func loadSection() {
         if let realM = realm {
             sections = realM.objects(Section.self)
             sectionTableView.reloadData()
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        sectionTableView.reloadData()
-    }
 }
 
+
+//MARK: - Table View Data Source Methods
 extension ChooseSectionController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections?.count ?? 1
@@ -69,12 +74,14 @@ extension ChooseSectionController: UITableViewDataSource {
     }
 }
 
+//MARK: - Contentful Manager Delegate Method
 extension ChooseSectionController: ContentfulManagerDelegate {
     func update() {
         sectionTableView.reloadData()
     }
 }
 
+//MARK: - Table View Delegate Method
 extension ChooseSectionController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: SegueName.sectionSegue.rawValue, sender: self)

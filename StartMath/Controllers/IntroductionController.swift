@@ -15,6 +15,7 @@ class IntroductionController: UIViewController {
     
     var introduction: Introduction?
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +24,8 @@ class IntroductionController: UIViewController {
             descriptionLabel.text = i.descriptionIntroduction
         }
     }
+    
+    //MARK: Open Safari ViewController
     @IBAction func searchPressed(_ sender: UIButton) {
         if let title = titleLabel.text {
             let urlString = "https://www.google.com/search?q=\(title.forSorting())"

@@ -23,9 +23,14 @@ class SingleExerciseController: UIViewController {
     let realm = try? Realm()
     var exercise: Exercise?
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        updateUI()
+    }
+    
+    func updateUI() {
         if let e = exercise {
             titleLabel.text = e.title
             descriptionLabel.text = e.descriptionExercise
@@ -33,12 +38,11 @@ class SingleExerciseController: UIViewController {
             modelArButton.isEnabled = e.arMode == "brak" ? false : true
         }
     }
+    
+    //MARK: - Button Methods
     @IBAction func showAnswearPressed(_ sender: UIButton) {
-        
         let alert = UIAlertController(title: "Answear: ", message: exercise?.answer, preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
         self.present(alert, animated: true)
         
         if let exerciseDone = exercise {
@@ -54,6 +58,7 @@ class SingleExerciseController: UIViewController {
         }
     }
     
+    //MARK: - Segue Methods
     @IBAction func showARPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToAR", sender: self)
     }

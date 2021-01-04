@@ -20,19 +20,29 @@ class FlashcardController: UIViewController {
     var flashcards: Results<Flashcard>?
     var label: String?
     
+    
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        setTableView(flashcardTableView)
         
-        flashcardTableView.dataSource = self
-        
-        flashcardTableView.register(UINib(nibName: FlashcardNib.flashcardNibName.rawValue, bundle: nil), forCellReuseIdentifier: FlashcardNib.flashcardIdentifier.rawValue)
-        
+        updateUI()
+    }
+    
+    func setTableView(_ table: UITableView) {
+        table.dataSource = self
+        table.register(UINib(nibName: FlashcardNib.flashcardNibName.rawValue, bundle: nil), forCellReuseIdentifier: FlashcardNib.flashcardIdentifier.rawValue)
+    }
+    
+    func updateUI() {
         if let s = label {
             sectionLabel.text = s
         }
     }
 }
 
+//MARK: UITable View Data Source Methods
 extension FlashcardController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         flashcards?.count ?? 1

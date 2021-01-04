@@ -144,6 +144,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4h-zh-pcS">
                                                 <rect key="frame" x="100" y="40" width="214" height="49"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <state key="normal" title="Introduction"/>
                                                 <connections>
                                                     <action selector="introductionButton:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="gjM-97-7bg"/>
@@ -165,6 +166,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NW8-lT-Aae">
                                                 <rect key="frame" x="100" y="40" width="214" height="49"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <state key="normal" title="Exercises"/>
                                                 <connections>
                                                     <action selector="exercisePressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="aPj-t8-9lc"/>
@@ -186,6 +188,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDl-Hm-4X2">
                                                 <rect key="frame" x="100" y="40" width="214" height="49"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <state key="normal" title="Flashcards"/>
                                                 <connections>
                                                     <action selector="flashcardPressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="Kca-n6-Pto"/>
@@ -207,6 +210,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ElG-u4-U9J">
                                                 <rect key="frame" x="100" y="40" width="214" height="49"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <state key="normal" title="Test"/>
                                                 <connections>
                                                     <action selector="testPressed:" destination="v7G-ww-Qmi" eventType="touchUpInside" id="OSg-7o-FpO"/>

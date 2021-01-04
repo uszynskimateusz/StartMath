@@ -23,7 +23,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="90" translatesAutoresizingMaskIntoConstraints="NO" id="KcE-Mr-8LA">
                                 <rect key="frame" x="10" y="10" width="404" height="66"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-2m-Pf4">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-2m-Pf4">
                                         <rect key="frame" x="0.0" y="0.5" width="50" height="65"/>
                                         <color key="tintColor" systemColor="systemGreenColor"/>
                                         <constraints>
@@ -35,7 +35,7 @@
                                         <rect key="frame" x="55" y="5" width="344" height="56"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uo3-PK-jUR">
-                                                <rect key="frame" x="5" y="5" width="334" height="46"/>
+                                                <rect key="frame" x="15" y="5" width="324" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -45,7 +45,7 @@
                                         <constraints>
                                             <constraint firstItem="Uo3-PK-jUR" firstAttribute="top" secondItem="iEq-jr-U9B" secondAttribute="top" constant="5" id="eZc-Ja-etO"/>
                                             <constraint firstAttribute="bottom" secondItem="Uo3-PK-jUR" secondAttribute="bottom" constant="5" id="gRt-Ip-9Cc"/>
-                                            <constraint firstItem="Uo3-PK-jUR" firstAttribute="leading" secondItem="iEq-jr-U9B" secondAttribute="leading" constant="5" id="lCh-bM-bT0"/>
+                                            <constraint firstItem="Uo3-PK-jUR" firstAttribute="leading" secondItem="iEq-jr-U9B" secondAttribute="leading" constant="15" id="lCh-bM-bT0"/>
                                             <constraint firstAttribute="trailing" secondItem="Uo3-PK-jUR" secondAttribute="trailing" constant="5" id="znX-PH-6HZ"/>
                                         </constraints>
                                     </view>
@@ -84,7 +84,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="circle" catalog="system" width="128" height="121"/>
+        <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

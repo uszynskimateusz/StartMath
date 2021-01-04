@@ -28,24 +28,13 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     var itemSCNScene = ""
     var itemChildNode = ""
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateNaviController()
         
         setSceneView()
-    }
-    
-    func updateNaviController() {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
-    }
-    
-    func setSceneView() {
-        sceneView.delegate = self
-        sceneView.autoenablesDefaultLighting = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +52,20 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
-    //MARK: - Refactoring Methods
+    //MARK: - Update UI Methods
+    func updateNaviController() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+    }
+    
+    func setSceneView() {
+        sceneView.delegate = self
+        sceneView.autoenablesDefaultLighting = true
+    }
+    
+    //MARK: - Touch Methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if dotNodes.count >= 2 {
             for dot in dotNodes {

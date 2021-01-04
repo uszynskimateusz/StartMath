@@ -27,8 +27,8 @@ class ExerciseListController: UIViewController {
             loadExercises()
         }
     }
-    
-    func calcExercise() {
+    //MARK: - UI Update Methods
+    func calculateDoneExercise() {
         var counter = 0
         if let exerList = exercises {
             for e in exerList {
@@ -36,42 +36,48 @@ class ExerciseListController: UIViewController {
                     counter += 1
                 }
             }
-            
             exerciseLabel.text = "\(counter) / \(exerList.count) done"
-            
             let progressFLoat = Float(counter) / Float(exerList.count)
             circleProgressBar.setProgress(CGFloat(progressFLoat), animated: true)
         }
         
     }
     
+    //MARK: - Data Methods
     func loadExercises() {
         exercises = selectedSection?.exercises.sorted(byKeyPath: Names.title.rawValue, ascending: true)
     }
     
+    //MARK: - Instance Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTableView(exercisesTableView)
         
-        exercisesTableView.dataSource = self
-        exercisesTableView.delegate = self
+        calculateDoneExercise()
         
-        
-        exercisesTableView.register(UINib(nibName: ExerciseNib.exerciseNibName.rawValue, bundle: nil), forCellReuseIdentifier: ExerciseNib.exerciseIdentifier.rawValue)
-        
-        calcExercise()
-        
-        circleProgressBar.progressBarWidth = CGFloat(5)
-        circleProgressBar.hintTextColor = UIColor.systemGreen
-        circleProgressBar.progressBarProgressColor = UIColor.systemGreen
-        circleProgressBar.hintTextFont = UIFont.systemFont(ofSize: 20)
+        updateProgressBar(bar: circleProgressBar)
+    }
+    
+    func setTableView(_ table: UITableView) {
+        table.dataSource = self
+        table.delegate = self
+        table.register(UINib(nibName: ExerciseNib.exerciseNibName.rawValue, bundle: nil), forCellReuseIdentifier: ExerciseNib.exerciseIdentifier.rawValue)
+    }
+    
+    func updateProgressBar(bar: CircleProgressBar) {
+        bar.progressBarWidth = CGFloat(5)
+        bar.hintTextColor = UIColor.systemGreen
+        bar.progressBarProgressColor = UIColor.systemGreen
+        bar.hintTextFont = UIFont.systemFont(ofSize: 20)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         exercisesTableView.reloadData()
-        calcExercise()
+        calculateDoneExercise()
     }
 }
 
+//MARK: - Table View Data Source Methods
 extension ExerciseListController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         exercises?.count ?? 1
@@ -81,7 +87,7 @@ extension ExerciseListController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseNib.exerciseIdentifier.rawValue, for: indexPath) as! ExerciseCell
         if let e = exercises?[indexPath.row] {
             cell.titleLabel.text = e.title
-            cell.leftImageView.image = e.done ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
+            cell.leftImageView.image = e.done ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "xmark.circle")
         } else {
             cell.titleLabel.text = "Brak zadań"
         }
@@ -91,7 +97,7 @@ extension ExerciseListController: UITableViewDataSource {
     }
 }
 
-
+//MARK: - Table View Delegate Methods
 extension ExerciseListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: SegueName.singleExerSegue.rawValue, sender: self)
