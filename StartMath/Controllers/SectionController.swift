@@ -62,8 +62,14 @@ class SectionController: UIViewController {
                 if d.done == true {
                     counter += 1
                 }
+            }            
+            if counter == doneExer.count {
+                testButton.isEnabled = true
+                testButton.backgroundColor = UIColor.systemGreen
+            } else {
+                testButton.isEnabled = false
+                testButton.backgroundColor = UIColor.darkGray
             }
-            testButton.isHidden = counter == doneExer.count ? false : true
         }
     }
     
@@ -99,7 +105,6 @@ class SectionController: UIViewController {
     @IBAction func testPressed(_ sender: UIButton) {
         performSegue(withIdentifier: SegueName.testSegue.rawValue, sender: sender)
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {

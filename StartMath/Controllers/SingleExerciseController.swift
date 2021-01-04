@@ -19,6 +19,7 @@ class SingleExerciseController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageImageView: UIImageView!
     @IBOutlet weak var modelArButton: UIButton!
+    @IBOutlet weak var answerButton: UIButton!
     
     let realm = try? Realm()
     var exercise: Exercise?
@@ -27,7 +28,16 @@ class SingleExerciseController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        customizeButton(button: modelArButton)
+        customizeButton(button: answerButton)
+        
         updateUI()
+    }
+    
+    func customizeButton(button: UIButton) {
+        button.layer.cornerRadius = 20
+        button.backgroundColor = UIColor.systemGreen
+        button.setTitleColor(UIColor.white, for: .normal)
     }
     
     func updateUI() {
@@ -35,7 +45,14 @@ class SingleExerciseController: UIViewController {
             titleLabel.text = e.title
             descriptionLabel.text = e.descriptionExercise
             imageImageView.image = UIImage(data: e.image as Data)
-            modelArButton.isEnabled = e.arMode == "brak" ? false : true
+            
+            if e.arMode == "brak" {
+                modelArButton.isEnabled = false
+                modelArButton.backgroundColor = UIColor.darkGray
+            } else {
+                modelArButton.isEnabled = true
+                modelArButton.backgroundColor = UIColor.systemGreen
+            }
         }
     }
     

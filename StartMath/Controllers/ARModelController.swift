@@ -112,7 +112,7 @@ class ARModelController: UIViewController, ARSCNViewDelegate {
     
     //MARK: Długości
     func addDot(at hitResult: ARRaycastResult) {
-        let dotGeometry = SCNSphere(radius: 0.005)
+        let dotGeometry = SCNSphere(radius: 0.01)
         
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.red
