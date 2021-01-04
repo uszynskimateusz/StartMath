@@ -7,11 +7,19 @@
 
 import UIKit
 import RealmSwift
+import CircleProgressBar
+
+enum ExerciseNib: String {
+    case exerciseNibName = "ExerciseCell"
+    case exerciseIdentifier = "exercisesCell"
+}
 
 class ExerciseListController: UIViewController {
     
     @IBOutlet weak var exerciseLabel: UILabel!
     @IBOutlet weak var exercisesTableView: UITableView!
+    @IBOutlet weak var circleProgressBar: CircleProgressBar!
+    
     
     var exercises: Results<Exercise>?
     var selectedSection: Section? {
@@ -30,24 +38,32 @@ class ExerciseListController: UIViewController {
             }
             
             exerciseLabel.text = "\(counter) / \(exerList.count) done"
+            
+            let progressFLoat = Float(counter) / Float(exerList.count)
+            circleProgressBar.setProgress(CGFloat(progressFLoat), animated: true)
         }
+        
     }
     
     func loadExercises() {
-        print("Wczytanie")
-        exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
+        exercises = selectedSection?.exercises.sorted(byKeyPath: Names.title.rawValue, ascending: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         exercisesTableView.dataSource = self
         exercisesTableView.delegate = self
         
         
-        exercisesTableView.register(UINib(nibName: "ExerciseCell", bundle: nil), forCellReuseIdentifier: "exercisesCell")
+        exercisesTableView.register(UINib(nibName: ExerciseNib.exerciseNibName.rawValue, bundle: nil), forCellReuseIdentifier: ExerciseNib.exerciseIdentifier.rawValue)
         
         calcExercise()
+        
+        circleProgressBar.progressBarWidth = CGFloat(5)
+        circleProgressBar.hintTextColor = UIColor.systemGreen
+        circleProgressBar.progressBarProgressColor = UIColor.systemGreen
+        circleProgressBar.hintTextFont = UIFont.systemFont(ofSize: 20)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +78,7 @@ extension ExerciseListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath) as! ExerciseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseNib.exerciseNibName.rawValue, for: indexPath) as! ExerciseCell
         if let e = exercises?[indexPath.row] {
             cell.titleLabel.text = e.title
             cell.leftImageView.isHidden = e.done ? true : false
@@ -78,12 +94,12 @@ extension ExerciseListController: UITableViewDataSource {
 
 extension ExerciseListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToSingleExercise", sender: self)
+        performSegue(withIdentifier: SegueName.singleExerSegue.rawValue, sender: self)
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! SingleExerciseController
-
+        
         if let indexPath = exercisesTableView.indexPathForSelectedRow {
             destinationVC.exercise = exercises?[indexPath.row]
         }

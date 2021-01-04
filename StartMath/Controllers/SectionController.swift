@@ -8,8 +8,17 @@
 import UIKit
 import RealmSwift
 
-class SectionController: UIViewController {
+enum SegueName: String {
+    case sectionSegue = "goToSection"
+    case introSegue = "goToIntroduction"
+    case exerListSegue = "goToExercisesList"
+    case flashSegue = "goToFlashcards"
+    case testSegue = "goToTest"
+    case singleExerSegue = "goToSingleExercise"
+}
 
+class SectionController: UIViewController {
+    
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var introductionButton: UIButton!
     @IBOutlet weak var exerciseButton: UIButton!
@@ -23,76 +32,78 @@ class SectionController: UIViewController {
     
     var selectedSection: Section? {
         didSet{
-            loadExercises()
-            loadFlashcards()
-            loadIntroductions()
-            loadTests()
+            loadData()
         }
     }
     
-    func loadExercises() {
-        exercises = selectedSection?.exercises.sorted(byKeyPath: "title", ascending: true)
+    func calculate() {
+        var counter = 0
+        
+        if let doneExer = exercises {
+            for d in doneExer {
+                if d.done == true {
+                    counter += 1
+                }
+            }
+            
+            testButton.isEnabled = counter == doneExer.count ? true : false
+        }
+    }
+    func loadData() {
+        exercises = selectedSection?.exercises.sorted(byKeyPath: Names.title.rawValue, ascending: true)
+        flashcards = selectedSection?.flashcards.sorted(byKeyPath: Names.title.rawValue, ascending: true)
+        introductions = selectedSection?.introductions.sorted(byKeyPath: Names.title.rawValue, ascending: true)
+        tests = selectedSection?.tests.sorted(byKeyPath: Names.title.rawValue, ascending: true)
     }
     
-    func loadFlashcards() {
-        flashcards = selectedSection?.flashcards.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    func loadIntroductions() {
-        introductions = selectedSection?.introductions.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    func loadTests() {
-        tests = selectedSection?.tests.sorted(byKeyPath: "title", ascending: true)
-    }
-    
-    var contentfulManager = ContentfulManager()
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         sectionLabel.text = selectedSection?.title
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        calculate()
+    }
     @IBAction func introductionButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToIntroduction", sender: sender)
+        performSegue(withIdentifier: SegueName.introSegue.rawValue, sender: sender)
     }
     
     @IBAction func exercisePressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToExercisesList", sender: sender)
+        performSegue(withIdentifier: SegueName.exerListSegue.rawValue, sender: sender)
     }
     
     @IBAction func flashcardPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToFlashcards", sender: sender)
+        performSegue(withIdentifier: SegueName.flashSegue.rawValue, sender: sender)
     }
     
     @IBAction func testPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToTest", sender: sender)
+        performSegue(withIdentifier: SegueName.testSegue.rawValue, sender: sender)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case "goToIntroduction":
+            case SegueName.introSegue.rawValue:
                 let destinationVC = segue.destination as! IntroductionController
                 destinationVC.introduction = introductions?.first
-            
-            case "goToExercisesList":
+                
+            case SegueName.exerListSegue.rawValue:
                 let destinationVC = segue.destination as! ExerciseListController
                 destinationVC.exercises = exercises
                 destinationVC.selectedSection = selectedSection
                 
-            case "goToFlashcards":
+            case SegueName.flashSegue.rawValue:
                 let destinationVC = segue.destination as! FlashcardController
                 destinationVC.flashcards = flashcards
                 destinationVC.label = selectedSection?.title
                 
-            case "goToTest":
+            case SegueName.testSegue.rawValue:
                 let destinationVC = segue.destination as! TestController
                 destinationVC.tests = tests
                 
             default: break
-                
             }
         }
     }
